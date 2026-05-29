@@ -1919,6 +1919,100 @@
 <!-- Toast container -->
 <div id="toastContainer" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] space-y-2"></div>
 
+<!-- ===================== PATIENT APPOINTMENT DETAIL MODAL ===================== -->
+<div id="patientApptDetailModal" class="modal-overlay hidden fixed inset-0 z-[120] items-center justify-center bg-black/70 backdrop-blur-sm">
+  <div class="modal-box glass border border-white/10 rounded-3xl w-full max-w-md mx-4 max-h-[92vh] overflow-y-auto transform scale-95 opacity-0 transition-all duration-300">
+
+    <!-- Status Header -->
+    <div id="padHeader" class="px-6 py-5 border-b border-white/8">
+      <div class="flex items-center justify-between mb-3">
+        <span id="padStatusBadge" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/15 border border-white/20 text-white text-xs font-bold tracking-wide">
+          <i class="fas fa-clock text-[10px]"></i>PENDING
+        </span>
+        <button onclick="closeModal('patientApptDetailModal')" class="w-8 h-8 rounded-xl hover:bg-white/10 flex items-center justify-center text-white/60 hover:text-white transition-colors">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <h3 class="text-xl font-extrabold text-white">Appointment Details</h3>
+      <p id="padBookedAt" class="text-xs text-white/50 mt-0.5">—</p>
+    </div>
+
+    <div class="p-5 space-y-3">
+
+      <!-- Date -->
+      <div id="padDateBox" class="rounded-2xl p-4 text-center bg-brand-500/10 border border-brand-500/20">
+        <div class="text-[10px] uppercase tracking-widest font-bold mb-2 flex items-center justify-center gap-1.5 text-brand-400">
+          <i class="fas fa-calendar-check"></i>Appointment Date
+        </div>
+        <div id="padDate" class="text-xl font-extrabold text-white">—</div>
+      </div>
+
+      <!-- Info Grid -->
+      <div class="grid grid-cols-2 gap-2.5">
+        <div class="glass border border-white/8 rounded-2xl p-3.5">
+          <div class="text-[9px] text-slate-500 uppercase tracking-widest mb-1.5 flex items-center gap-1"><i class="fas fa-stethoscope text-brand-400/60"></i>Specialty</div>
+          <div id="padSpecialty" class="text-sm font-bold text-white capitalize">—</div>
+        </div>
+        <div class="glass border border-white/8 rounded-2xl p-3.5">
+          <div class="text-[9px] text-slate-500 uppercase tracking-widest mb-1.5 flex items-center gap-1"><i class="fas fa-user-md text-brand-400/60"></i>Doctor</div>
+          <div id="padDoctor" class="text-sm font-bold text-white">—</div>
+        </div>
+        <div class="glass border border-white/8 rounded-2xl p-3.5">
+          <div class="text-[9px] text-slate-500 uppercase tracking-widest mb-1.5 flex items-center gap-1"><i class="fas fa-birthday-cake text-brand-400/60"></i>Age</div>
+          <div id="padAge" class="text-sm font-bold text-white">—</div>
+        </div>
+        <div class="glass border border-white/8 rounded-2xl p-3.5">
+          <div class="text-[9px] text-slate-500 uppercase tracking-widest mb-1.5 flex items-center gap-1"><i class="fas fa-venus-mars text-brand-400/60"></i>Gender</div>
+          <div id="padGender" class="text-sm font-bold text-white capitalize">—</div>
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div class="glass border border-white/8 rounded-2xl p-3.5 space-y-2.5">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-brand-500/10 flex items-center justify-center flex-shrink-0"><i class="fas fa-envelope text-brand-400 text-xs"></i></div>
+          <div><div class="text-[9px] text-slate-500 uppercase tracking-widest">Email</div><div id="padEmail" class="text-sm font-semibold text-white mt-0.5">—</div></div>
+        </div>
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-brand-500/10 flex items-center justify-center flex-shrink-0"><i class="fas fa-phone text-brand-400 text-xs"></i></div>
+          <div><div class="text-[9px] text-slate-500 uppercase tracking-widest">Phone</div><div id="padPhone" class="text-sm font-semibold text-white mt-0.5">—</div></div>
+        </div>
+      </div>
+
+      <!-- Payment -->
+      <div class="glass border border-white/8 rounded-2xl p-3.5 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-brand-500/10 flex items-center justify-center flex-shrink-0">
+          <i class="fas fa-credit-card text-brand-400"></i>
+        </div>
+        <div>
+          <div class="text-[9px] text-slate-500 uppercase tracking-widest">Payment</div>
+          <div id="padPayment" class="text-sm font-bold text-white mt-0.5">—</div>
+        </div>
+        <span id="padPaidBadge" class="ml-auto hidden text-[10px] bg-green-500/15 border border-green-500/30 text-green-300 px-2.5 py-1 rounded-full font-semibold"><i class="fas fa-check mr-1"></i>Paid</span>
+      </div>
+
+      <!-- Notes -->
+      <div id="padNotesBox" class="glass border border-white/8 rounded-2xl p-4 hidden">
+        <div class="text-[9px] text-slate-500 uppercase tracking-widest mb-2 flex items-center gap-1.5">
+          <i class="fas fa-comment-medical text-brand-400/60"></i>Your Notes / Symptoms
+        </div>
+        <p id="padNotes" class="text-sm text-slate-300 leading-relaxed">—</p>
+      </div>
+
+      <!-- Pay button -->
+      <div id="padPayBtnWrap" class="hidden">
+        <button id="padPayBtn" class="w-full py-3 rounded-2xl bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-white text-sm font-bold transition-all shadow-lg shadow-brand-600/20">
+          <i class="fas fa-lock mr-2"></i>Pay Consultation Fee — $10.00
+        </button>
+      </div>
+
+      <button onclick="closeModal('patientApptDetailModal')" class="w-full py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-400 text-sm font-medium hover:bg-white/10 transition-colors">
+        Close
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- ===================== PATIENT DETAIL MODAL ===================== -->
 <div id="patientDetailModal" class="modal-overlay hidden fixed inset-0 z-[120] items-center justify-center bg-black/70 backdrop-blur-sm">
   <div class="modal-box glass border border-white/10 rounded-3xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto transform scale-95 opacity-0 transition-all duration-300">

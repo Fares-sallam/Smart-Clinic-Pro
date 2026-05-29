@@ -2083,24 +2083,138 @@ document.addEventListener('DOMContentLoaded', function () {
         container.innerHTML = '<div class="text-center py-10"><div class="w-14 h-14 bg-brand-500/10 rounded-2xl flex items-center justify-center mx-auto mb-3"><i class="fas fa-calendar text-brand-400 text-xl"></i></div><p class="text-sm text-slate-400">No appointments found for ' + escapeHtml(email) + '</p><p class="text-xs text-slate-600 mt-1">Please ensure you use the same email during booking</p></div>';
         return;
       }
-      const statusCls = { pending:'bg-gold-500/15 border-gold-500/30 text-gold-300', approved:'bg-green-500/15 border-green-500/30 text-green-300', postponed:'bg-blue-500/15 border-blue-500/30 text-blue-300', cancelled:'bg-red-500/15 border-red-500/30 text-red-300', completed:'bg-purple-500/15 border-purple-500/30 text-purple-300' };
-      const statusIcon = { pending:'fa-clock', approved:'fa-check-circle', postponed:'fa-redo', cancelled:'fa-times-circle', completed:'fa-star' };
+      const sCls  = { pending:'bg-gold-500/15 border-gold-500/30 text-gold-300', approved:'bg-green-500/15 border-green-500/30 text-green-300', postponed:'bg-blue-500/15 border-blue-500/30 text-blue-300', cancelled:'bg-red-500/15 border-red-500/30 text-red-300', completed:'bg-purple-500/15 border-purple-500/30 text-purple-300' };
+      const sIcon = { pending:'fa-clock', approved:'fa-check-circle', postponed:'fa-redo', cancelled:'fa-times-circle', completed:'fa-star' };
+      const sBar  = { pending:'#f59e0b', approved:'#22c55e', postponed:'#3b82f6', cancelled:'#ef4444', completed:'#a855f7' };
+
       const rows = data.map(a => {
-        const s = safeStatus(a.status);
-        const badge = '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-xs font-medium ' + (statusCls[s]||statusCls.pending) + '"><i class="fas ' + (statusIcon[s]||'fa-circle') + ' text-[10px]"></i>' + capitalize(s) + '</span>';
-        const dateLabel = a.preferred_date ? new Date(a.preferred_date).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'}) : 'Date TBD';
+        const s       = safeStatus(a.status);
+        const pm      = safePaymentMethod(a.payment_method);
+        const dt      = a.preferred_date ? new Date(a.preferred_date + 'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'}) : 'Date TBD';
         const created = new Date(a.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-        const pm=safePaymentMethod(a.payment_method);
-        const payBtn = (s==='approved'&&a.patient_email)
-          ? `<button onclick="payForAppointment(${jsArg(a.id)},${jsArg(a.patient_email)},${jsArg(a.patient_name)},this,${jsArg(pm)})" class="mt-2 w-full py-1.5 rounded-lg bg-brand-600/20 border border-brand-500/40 text-brand-300 hover:bg-brand-600/40 text-xs font-medium"><i class="fas fa-${pm==='cash'?'money-bill-wave':'credit-card'} mr-1"></i>${pm==='cash'?'Pay at Clinic (Cash)':'Pay Consultation ($10)'}</button>`
-          : '';
-        return '<div class="glass border border-white/8 rounded-2xl p-4 mb-3"><div class="flex flex-wrap items-center gap-2 mb-1"><span class="text-sm font-semibold text-white">' + escapeHtml(capitalize(a.specialty)) + '</span>' + badge + '</div><div class="text-xs text-slate-500 mt-1 space-y-0.5"><div><i class="fas fa-user-md mr-1 text-brand-400"></i>' + escapeHtml(a.doctor_name||'TBD') + '</div><div><i class="fas fa-calendar mr-1 text-brand-400"></i>' + escapeHtml(dateLabel) + '</div><div class="text-slate-600"><i class="fas fa-clock mr-1"></i>Booked ' + escapeHtml(created) + '</div></div>' + (a.notes ? '<div class="mt-2 text-xs text-slate-400 bg-white/3 rounded-lg px-2.5 py-1.5 line-clamp-2">' + escapeHtml(a.notes) + '</div>' : '') + payBtn + '</div>';
+        const badge   = `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full border text-xs font-bold ${sCls[s]||sCls.pending}"><i class="fas ${sIcon[s]||'fa-circle'} text-[10px]"></i>${capitalize(s)}</span>`;
+
+        return `<div class="rounded-2xl overflow-hidden mb-3 cursor-pointer hover:scale-[1.01] transition-all group" onclick="openPatientApptDetail(${jsArg(JSON.stringify(a))})">
+          <div style="height:3px;background:${sBar[s]||'#6b7280'}"></div>
+          <div class="glass border border-white/8 border-t-0 rounded-b-2xl p-4">
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 rounded-2xl bg-brand-500/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <i class="fas fa-stethoscope text-brand-400"></i>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex flex-wrap items-center gap-2 mb-2">
+                  <span class="text-sm font-extrabold text-white capitalize">${escapeHtml(capitalize(a.specialty||'—'))}</span>
+                  ${badge}
+                </div>
+                <div class="space-y-1 text-xs text-slate-500">
+                  <div class="flex items-center gap-1.5"><i class="fas fa-user-md text-brand-400/60 w-3"></i>${escapeHtml(a.doctor_name||'TBD')}</div>
+                  <div class="flex items-center gap-1.5"><i class="fas fa-calendar text-brand-400/60 w-3"></i>${escapeHtml(dt)}</div>
+                  <div class="flex items-center gap-1.5 text-slate-600"><i class="fas fa-clock w-3"></i>Booked ${escapeHtml(created)}</div>
+                </div>
+                ${a.notes ? `<div class="mt-2 text-xs text-slate-400 bg-white/3 border border-white/5 rounded-xl px-3 py-1.5 line-clamp-1"><i class="fas fa-comment-medical mr-1 text-brand-400/50"></i>${escapeHtml(a.notes)}</div>` : ''}
+              </div>
+              <div class="flex-shrink-0 text-slate-600 group-hover:text-brand-400 transition-colors mt-1">
+                <i class="fas fa-chevron-right text-xs"></i>
+              </div>
+            </div>
+            <div class="flex items-center justify-between mt-3 pt-3 border-t border-white/5">
+              <span class="text-[10px] text-slate-600 flex items-center gap-1">
+                <i class="fas fa-${pm==='cash'?'money-bill-wave':'credit-card'} text-brand-400/40"></i>
+                ${pm === 'cash' ? 'Cash' : 'Visa/MC'}
+                ${s === 'completed' ? '<i class="fas fa-check-circle text-green-400 ml-1"></i> Paid' : ''}
+              </span>
+              <span class="text-[10px] text-brand-400 font-semibold group-hover:underline">View Details →</span>
+            </div>
+          </div>
+        </div>`;
       });
       container.innerHTML = rows.join('');
     } catch (err) {
       container.innerHTML = '<div class="flex items-center gap-2 text-red-400 text-sm p-4 glass border border-red-500/20 rounded-xl"><i class="fas fa-exclamation-circle"></i><span>' + escapeHtml(err.message) + '</span></div>';
     }
   }
+
+  window.openPatientApptDetail = function(apptJson) {
+    const a  = typeof apptJson === 'string' ? JSON.parse(apptJson) : apptJson;
+    const s  = safeStatus(a.status);
+    const pm = safePaymentMethod(a.payment_method);
+
+    // Status config
+    const sc = {
+      pending:   { bg:'linear-gradient(135deg,rgba(120,53,15,.6),rgba(92,45,12,.4))',   color:'#f59e0b', label:'PENDING',   icon:'fa-clock' },
+      approved:  { bg:'linear-gradient(135deg,rgba(20,83,45,.6),rgba(21,128,61,.4))',   color:'#22c55e', label:'APPROVED',  icon:'fa-check-circle' },
+      postponed: { bg:'linear-gradient(135deg,rgba(30,58,138,.6),rgba(29,78,216,.4))',  color:'#3b82f6', label:'POSTPONED', icon:'fa-redo' },
+      cancelled: { bg:'linear-gradient(135deg,rgba(127,29,29,.6),rgba(185,28,28,.4))',  color:'#ef4444', label:'CANCELLED', icon:'fa-times-circle' },
+      completed: { bg:'linear-gradient(135deg,rgba(88,28,135,.6),rgba(126,34,206,.4))', color:'#a855f7', label:'COMPLETED', icon:'fa-star' },
+    }[s] || { bg:'linear-gradient(135deg,rgba(14,135,160,.4),rgba(11,105,125,.3))', color:'#14a8c0', label:s.toUpperCase(), icon:'fa-circle' };
+
+    // Header
+    const headerEl = document.getElementById('padHeader');
+    if (headerEl) headerEl.style.background = sc.bg;
+    const badgeEl = document.getElementById('padStatusBadge');
+    if (badgeEl) badgeEl.innerHTML = `<i class="fas ${sc.icon} text-[10px]"></i>${sc.label}`;
+
+    const setEl = (id, val) => { const e = document.getElementById(id); if (e) e.textContent = val || '—'; };
+
+    // Booked at
+    const created = a.created_at ? new Date(a.created_at).toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'}) : '';
+    setEl('padBookedAt', created ? 'Booked on ' + created : '');
+
+    // Date
+    const dateEl  = document.getElementById('padDate');
+    const dateBox = document.getElementById('padDateBox');
+    if (a.preferred_date) {
+      const ds = new Date(a.preferred_date + 'T12:00:00').toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+      if (dateEl)  dateEl.textContent = ds;
+      if (dateBox) { dateBox.style.background = 'rgba(20,168,192,0.12)'; dateBox.style.border = '1px solid rgba(20,168,192,0.3)'; }
+    } else {
+      if (dateEl)  dateEl.textContent = 'No date selected';
+      if (dateBox) { dateBox.style.background = 'rgba(255,255,255,0.03)'; dateBox.style.border = '1px solid rgba(255,255,255,0.08)'; }
+    }
+
+    // Info
+    setEl('padSpecialty', capitalize(a.specialty || ''));
+    setEl('padDoctor',    a.doctor_name || 'To be assigned');
+    setEl('padAge',       a.patient_age ? a.patient_age + ' years' : '—');
+    setEl('padGender',    capitalize(a.patient_gender || ''));
+    setEl('padEmail',     a.patient_email);
+    setEl('padPhone',     a.phone);
+
+    // Payment
+    const pmLabels = { card:'Visa / Mastercard', mir:'Mir Card', apple:'Apple Pay', cash:'Cash at Clinic' };
+    const pmIcons  = { card:'fa-credit-card text-blue-400', cash:'fa-money-bill-wave text-green-400', apple:'fa-apple text-slate-300', mir:'fa-credit-card text-green-400' };
+    const payEl = document.getElementById('padPayment');
+    if (payEl) payEl.innerHTML = `<i class="fas ${pmIcons[pm]||pmIcons.card} mr-1.5"></i>${pmLabels[pm]||'Card'}`;
+
+    // Paid badge
+    const paidBadge = document.getElementById('padPaidBadge');
+    if (paidBadge) paidBadge.classList.toggle('hidden', s !== 'completed');
+
+    // Notes
+    const notesBox = document.getElementById('padNotesBox');
+    const notesEl  = document.getElementById('padNotes');
+    if (a.notes?.trim()) {
+      if (notesBox) notesBox.classList.remove('hidden');
+      if (notesEl)  notesEl.textContent = a.notes;
+    } else {
+      if (notesBox) notesBox.classList.add('hidden');
+    }
+
+    // Pay button (show only if approved + not paid yet)
+    const payWrap = document.getElementById('padPayBtnWrap');
+    const payBtn  = document.getElementById('padPayBtn');
+    if (s === 'approved' && pm !== 'cash') {
+      if (payWrap) payWrap.classList.remove('hidden');
+      if (payBtn)  payBtn.onclick = () => {
+        closeModal('patientApptDetailModal');
+        payForAppointment(a.id, a.patient_email, a.patient_name, payBtn, pm);
+      };
+    } else {
+      if (payWrap) payWrap.classList.add('hidden');
+    }
+
+    openModal('patientApptDetailModal');
+  };
 
   async function fetchPatientStats() {
     const email = currentUser?.email?.toLowerCase().trim();
