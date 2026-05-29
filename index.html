@@ -1,0 +1,2223 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark" dir="ltr"><head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Clinic Pro — Advanced Medical Care</title>
+  <meta name="description" content="Smart Clinic Pro: Where innovation meets compassionate healthcare. Book appointments, connect with top specialists, and manage your health digitally."/>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Smart Clinic Pro — Advanced Medical Care"/>
+  <meta property="og:description" content="Smart Clinic Pro: Where innovation meets compassionate healthcare. Book appointments, connect with top specialists, and manage your health digitally."/>
+  <meta property="og:url" content="https://www.onspace.ai"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1200&h=630&fit=crop"/>
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Stripe.js -->
+  <script src="https://js.stripe.com/v3/"></script>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+
+  <!-- App JS (contains Tailwind config + logic) -->
+  <script src="app.js" defer></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css"/>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F3E5;</text></svg>"/>
+</head>
+<body class="dark">
+<!-- ===================== HEADER ===================== -->
+<header id="mainHeader" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 lg:h-20">
+<!-- Logo -->
+        <a href="#hero" class="flex items-center gap-3 group">
+          <div class="relative">
+            <div class="absolute inset-0 bg-brand-400 blur-lg opacity-40 group-hover:opacity-70 transition-opacity"></div>
+            <div class="relative w-10 h-10 rounded-xl bg-gradient-to-br from-brand-400 via-brand-500 to-brand-600 flex items-center justify-center shadow-xl shadow-brand-600/30 group-hover:scale-110 transition-transform duration-300">
+              <i class="fas fa-plus text-white text-lg"></i>
+            </div>
+          </div>
+          <div class="flex flex-col justify-center">
+            <span class="text-xl font-extrabold tracking-tight text-white leading-none">
+              Smart<span class="text-brand-400">Clinic</span><span class="text-gold-400">Pro</span>
+            </span>
+            <div id="taglineText" class="text-[9px] tracking-[0.15em] text-brand-300/80 uppercase font-medium mt-1" data-i18n="tagline">Advanced Medical Care</div>
+          </div>
+        </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden lg:flex items-center gap-1">
+        <!-- About Dropdown -->
+        <div class="relative">
+          <button onclick="toggleDropdown('dd-about')" class="nav-icon-btn px-3 py-2 rounded-xl text-sm text-slate-300 hover:text-white hover:bg-white/5 transition-all">
+            <span data-i18n="nav_about">About</span>
+            <i class="fas fa-chevron-down text-[10px] opacity-50"></i>
+          </button>
+          <div id="dd-about" class="dropdown-menu absolute top-full left-0 mt-2 w-56 glass border border-white/10 rounded-2xl p-2 shadow-xl z-50">
+            <a href="#about" onclick="closeAllDropdowns()" class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 transition-colors text-sm text-slate-300 hover:text-white">
+              <div class="w-8 h-8 rounded-lg bg-brand-500/10 flex items-center justify-center"><i class="fas fa-building text-brand-400 text-xs"></i></div>
+              <div><div class="font-medium" data-i18n="nav_about">About</div><div class="text-[10px] text-slate-500" data-i18n="dd_about_rating">Our Ratings</div></div>
+            </a>
+            <a href="#services" onclick="closeAllDropdowns()" class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 transition-colors text-sm text-slate-300 hover:text-white">
+              <div class="w-8 h-8 rounded-lg bg-gold-500/10 flex items-center justify-center"><i class="fas fa-stethoscope text-gold-400 text-xs"></i></div>
+              <div><div class="font-medium" data-i18n="dd_about_services">Our Services</div><div class="text-[10px] text-slate-500" data-i18n="dd_about_services_sub">Comprehensive care solutions</div></div>
+            </a>
+            <a href="#testimonials" onclick="closeAllDropdowns()" class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 transition-colors text-sm text-slate-300 hover:text-white">
+              <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center"><i class="fas fa-images text-purple-400 text-xs"></i></div>
+              <div><div class="font-medium" data-i18n="dd_about_gallery">Gallery</div><div class="text-[10px] text-slate-500" data-i18n="dd_about_gallery_sub">Our world-class facilities</div></div>
+            </a>
+          </div>
+        </div>
+
+        <a href="#doctors" class="nav-link px-3 py-2 rounded-xl text-sm text-slate-300 hover:text-white hover:bg-white/5 transition-all" data-i18n="nav_doctors">Doctors</a>
+        <a href="#booking" class="nav-link px-3 py-2 rounded-xl text-sm text-slate-300 hover:text-white hover:bg-white/5 transition-all" data-i18n="nav_booking">Booking</a>
+
+        <!-- Contact Dropdown -->
+        <div class="relative">
+          <button onclick="toggleDropdown('dd-contact')" class="nav-icon-btn px-3 py-2 rounded-xl text-sm text-slate-300 hover:text-white hover:bg-white/5 transition-all">
+            <span data-i18n="nav_contact">Contact</span>
+            <i class="fas fa-chevron-down text-[10px] opacity-50"></i>
+          </button>
+          <div id="dd-contact" class="dropdown-menu absolute top-full left-0 mt-2 w-56 glass border border-white/10 rounded-2xl p-2 shadow-xl z-50">
+            <a href="#contact" onclick="closeAllDropdowns()" class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 transition-colors text-sm text-slate-300 hover:text-white">
+              <div class="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center"><i class="fas fa-phone text-green-400 text-xs"></i></div>
+              <div><div class="font-medium">Phone</div><div class="text-[10px] text-slate-500">+1 (555) 123-4567</div></div>
+            </a>
+            <a href="#contact" onclick="closeAllDropdowns()" class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 transition-colors text-sm text-slate-300 hover:text-white">
+              <div class="w-8 h-8 rounded-lg bg-brand-500/10 flex items-center justify-center"><i class="fas fa-envelope text-brand-400 text-xs"></i></div>
+              <div><div class="font-medium">Email</div><div class="text-[10px] text-slate-500">info@smartclinicpro.com</div></div>
+            </a>
+            <a href="#contact" onclick="closeAllDropdowns()" class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 transition-colors text-sm text-slate-300 hover:text-white">
+              <div class="w-8 h-8 rounded-lg bg-gold-500/10 flex items-center justify-center"><i class="fas fa-map-marker-alt text-gold-400 text-xs"></i></div>
+              <div><div class="font-medium">Address</div><div class="text-[10px] text-slate-500">123 Medical Center Blvd</div></div>
+            </a>
+          </div>
+        </div>
+
+        <div class="relative">
+          <button onclick="toggleDropdown('dd-lang')" class="nav-icon-btn px-3 py-2 rounded-xl text-sm text-slate-300 hover:text-white hover:bg-white/5 transition-all">
+            <i class="fas fa-globe text-xs"></i>
+            <span class="text-xs">EN</span>
+          </button>
+          <div id="dd-lang" class="dropdown-menu absolute top-full right-0 mt-2 w-44 glass border border-white/10 rounded-2xl p-1.5 shadow-xl z-50">
+            <button onclick="setLanguage('en');closeAllDropdowns()" class="w-full flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-white/5 transition-colors text-sm text-slate-300 hover:text-white">
+              <span class="text-lg">&#x1F1EC;&#x1F1E7;</span> English
+            </button>
+            <button onclick="setLanguage('ar');closeAllDropdowns()" class="w-full flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-white/5 transition-colors text-sm text-slate-300 hover:text-white">
+              <span class="text-lg">&#x1F1F8;&#x1F1E6;</span> العربية
+            </button>
+            <button onclick="setLanguage('ru');closeAllDropdowns()" class="w-full flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-white/5 transition-colors text-sm text-slate-300 hover:text-white">
+              <span class="text-lg">&#x1F1F7;&#x1F1FA;</span> Русский
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Right Actions -->
+      <div class="flex items-center gap-2">
+        <!-- Search -->
+        <button onclick="toggleSearch()" class="w-9 h-9 rounded-xl glass border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:border-brand-500/40 transition-all">
+          <i class="fas fa-search text-sm"></i>
+        </button>
+
+        <!-- Auth Buttons -->
+        <div id="navAuthBtns" class="hidden lg:flex items-center gap-2">
+          <button onclick="openModal('loginModal')" class="px-4 py-2 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all" data-i18n="btn_login">Login</button>
+          <button onclick="openModal('signupModal')" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-sm font-semibold transition-all shadow-lg shadow-brand-600/20" data-i18n="btn_signup">Sign Up</button>
+        </div>
+
+        <!-- User Chip (shown when logged in) -->
+        <button id="navUserChip" onclick="openUserDashboard()" class="hidden items-center gap-2 px-3 py-1.5 rounded-xl glass border border-white/10 hover:border-brand-500/40 transition-all" style="display:none;">
+          <div class="w-7 h-7 rounded-full bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center text-white text-xs font-bold">
+            <i class="fas fa-user text-[10px]"></i>
+          </div>
+          <span id="navUserName" class="text-sm font-medium text-white max-w-[100px] truncate">User</span>
+          <span id="navUserBadge" class="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-green-500/20 border border-green-500/40 text-green-300">Patient</span>
+        </button>
+
+        <!-- Quick Logout (admin/doctor only) -->
+        <button id="navLogoutBtn" onclick="handleLogout()" style="display:none;" title="Sign Out"
+          class="items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 hover:bg-red-500/20 hover:border-red-500/40 transition-all text-xs font-medium">
+          <i class="fas fa-sign-out-alt text-sm"></i>
+          <span class="hidden lg:inline ml-1">Logout</span>
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button onclick="toggleMobileMenu()" class="lg:hidden w-9 h-9 rounded-xl glass border border-white/10 flex items-center justify-center text-slate-400 hover:text-white transition-all">
+          <i id="mobileMenuIcon" class="fas fa-bars text-sm"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div id="searchBar" class="hidden pb-4">
+      <div class="relative">
+        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+        <input id="searchInput" type="text" oninput="performSearch(this.value)" placeholder="Search doctors, specialties, services..." class="w-full pl-10 pr-4 py-3 rounded-xl bg-dark-800/80 border border-white/10 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-500/50 transition-colors" data-i18n-placeholder="search_placeholder"/>
+        <div id="searchResults" class="hidden mt-2 glass border border-white/10 rounded-2xl overflow-hidden max-h-80 overflow-y-auto"></div>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu lg:hidden">
+      <div class="py-4 space-y-1 border-t border-white/5">
+        <a href="#about" onclick="closeMobileMenu()" class="block px-4 py-3 rounded-xl text-sm text-slate-300 hover:text-white hover:bg-white/5 transition-colors" data-i18n="nav_about">About</a>
+        <a href="#doctors" onclick="closeMobileMenu()" class="block px-4 py-3 rounded-xl text-sm text-slate-300 hover:text-white hover:bg-white/5 transition-colors" data-i18n="nav_doctors">Doctors</a>
+        <a href="#booking" onclick="closeMobileMenu()" class="block px-4 py-3 rounded-xl text-sm text-slate-300 hover:text-white hover:bg-white/5 transition-colors" data-i18n="nav_booking">Booking</a>
+        <a href="#contact" onclick="closeMobileMenu()" class="block px-4 py-3 rounded-xl text-sm text-slate-300 hover:text-white hover:bg-white/5 transition-colors" data-i18n="nav_contact">Contact</a>
+
+        <!-- Mobile Auth Buttons -->
+        <div id="mobileAuthBtns" class="flex gap-2 pt-2">
+          <button onclick="openModal('loginModal');closeMobileMenu()" class="flex-1 py-2.5 rounded-xl text-sm font-medium text-slate-300 border border-white/10" data-i18n="btn_login">Login</button>
+          <button onclick="openModal('signupModal');closeMobileMenu()" class="flex-1 py-2.5 rounded-xl bg-brand-600 text-white text-sm font-semibold" data-i18n="btn_signup">Sign Up</button>
+        </div>
+
+        <!-- Mobile User Row -->
+        <div id="mobileUserRow" class="hidden items-center gap-3 pt-2 border-t border-white/5">
+          <button onclick="openUserDashboard();closeMobileMenu()" class="flex-1 flex items-center gap-3 py-2.5 rounded-xl hover:bg-white/5 transition-colors">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center text-white text-sm">
+              <i class="fas fa-user"></i>
+            </div>
+            <span id="mobileUserName" class="text-sm font-medium text-white">User</span>
+          </button>
+        </div>
+
+        <!-- Mobile Language -->
+        <div class="flex gap-2 pt-2 border-t border-white/5">
+          <button onclick="setLanguage('en');closeMobileMenu()" class="flex-1 py-2 rounded-xl text-xs text-slate-400 hover:text-white hover:bg-white/5 transition-colors border border-white/5">&#x1F1EC;&#x1F1E7; English</button>
+          <button onclick="setLanguage('ar');closeMobileMenu()" class="flex-1 py-2 rounded-xl text-xs text-slate-400 hover:text-white hover:bg-white/5 transition-colors border border-white/5">&#x1F1F8;&#x1F1E6; العربية</button>
+          <button onclick="setLanguage('ru');closeMobileMenu()" class="flex-1 py-2 rounded-xl text-xs text-slate-400 hover:text-white hover:bg-white/5 transition-colors border border-white/5">&#x1F1F7;&#x1F1FA; Русский</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== HERO SECTION ===================== -->
+<section id="hero" class="hero-bg min-h-screen flex items-center relative pt-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <!-- Left Content -->
+      <div class="text-center lg:text-right">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-300 text-xs font-medium mb-6 animate__animated animate__fadeInDown">
+          <span class="w-2 h-2 rounded-full bg-brand-400 animate-pulse"></span>
+          <span data-i18n="hero_badge">Now accepting new patients</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-6">
+          <span class="block" data-i18n="hero_h1_line1">Your Health,</span>
+          <span class="block bg-gradient-to-r from-brand-400 via-brand-300 to-gold-400 bg-clip-text text-transparent" data-i18n="hero_h1_line2">Our Priority</span>
+        </h1>
+
+        <p class="text-lg text-slate-400 max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed" data-i18n="hero_subtitle">
+          World-class medical care, expert physicians, and a seamless digital experience — all in one place. Because you deserve the best.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+          <a href="#booking" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-white font-semibold shadow-xl shadow-brand-600/25 hover:shadow-brand-500/40 transition-all hover:-translate-y-0.5 animate__animated" onmouseenter="this.classList.add('animate__pulse')" data-i18n="btn_book">
+            <i class="fas fa-calendar-check mr-2"></i>Book Appointment
+          </a>
+          <a href="#doctors" class="px-8 py-4 rounded-2xl glass border border-white/15 hover:border-brand-500/40 text-white font-semibold transition-all hover:-translate-y-0.5" data-i18n="btn_doctors">
+            <i class="fas fa-user-md mr-2"></i>Meet Our Doctors
+          </a>
+        </div>
+
+        <!-- Typing Quote -->
+        <div class="mt-8 text-sm text-slate-500">
+          <span id="typingQuote" class="typing-cursor"></span>
+        </div>
+      </div>
+
+      <!-- Right Visual -->
+      <div class="relative hidden lg:block">
+        <!-- Main Image Area -->
+        <div class="relative w-full h-[500px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+          <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=600&h=500&fit=crop" srcset="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=400&h=350&fit=crop 400w, https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=600&h=500&fit=crop 600w, https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&h=700&fit=crop 800w" sizes="(max-width: 1024px) 100vw, 50vw" alt="Medical team at Smart Clinic Pro providing expert patient care" class="w-full h-full object-cover" loading="eager" fetchpriority="high" decoding="async"/>
+<div class="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent"></div>
+
+           <!-- Floating Card - Top Rated -->
+           <div class="absolute bottom-4 right-4 z-10 glass border border-white/10 rounded-2xl p-3 animate__animated animate__fadeInLeft" style="animation-delay:0.6s">
+             <div class="flex items-center gap-2">
+               <div class="w-8 h-8 rounded-lg bg-gold-500/20 flex items-center justify-center flex-shrink-0 pulse-ring">
+                 <i class="fas fa-star text-gold-400 text-sm"></i>
+               </div>
+               <div>
+                 <div class="text-xs font-semibold text-white">Top Rated Clinic</div>
+                 <div class="flex items-center gap-1">
+                   <span class="text-gold-400 text-xs font-bold">4.9</span>
+                   <div class="flex gap-0.5"><i class="fas fa-star text-gold-400 text-[8px]"></i><i class="fas fa-star text-gold-400 text-[8px]"></i><i class="fas fa-star text-gold-400 text-[8px]"></i><i class="fas fa-star text-gold-400 text-[8px]"></i><i class="fas fa-star-half-alt text-gold-400 text-[8px]"></i></div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+
+     <!-- Stats -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mt-16 lg:mt-24">
+      <div class="glass border border-white/8 rounded-2xl p-5 text-center">
+        <div class="counter-num text-2xl lg:text-3xl font-bold text-brand-400" data-target="12000">0</div>
+        <div class="text-xs lg:text-sm text-slate-400 mt-1" data-i18n="stat_patients">Happy Patients</div>
+      </div>
+      <div class="glass border border-white/8 rounded-2xl p-5 text-center">
+        <div class="counter-num text-2xl lg:text-3xl font-bold text-brand-400" data-target="45">0</div>
+        <div class="text-xs lg:text-sm text-slate-400 mt-1" data-i18n="stat_doctors">Expert Doctors</div>
+      </div>
+      <div class="glass border border-white/8 rounded-2xl p-5 text-center">
+        <div class="counter-num text-2xl lg:text-3xl font-bold text-brand-400" data-target="15">0</div>
+        <div class="text-xs lg:text-sm text-slate-400 mt-1" data-i18n="stat_years">Years of Care</div>
+      </div>
+      <div class="glass border border-white/8 rounded-2xl p-5 text-center">
+        <div class="text-2xl lg:text-3xl font-bold text-gold-400">4.9<span class="text-lg text-gold-400">★</span></div>
+        <div class="text-xs lg:text-sm text-slate-400 mt-1" data-i18n="stat_rating">Patient Rating</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-500 animate-bounce">
+    <span class="text-xs" data-i18n="scroll_down">Scroll to explore</span>
+    <i class="fas fa-chevron-down text-xs"></i>
+  </div>
+</section>
+
+<!-- ===================== ABOUT SECTION ===================== -->
+<section id="about" class="py-20 lg:py-28 bg-dark-900 relative">
+  <div class="absolute inset-0 bg-gradient-radial from-brand-500/5 to-transparent"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+    <!-- Section Header -->
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <span class="inline-block px-4 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-300 text-xs font-semibold mb-4" data-i18n="section_about_badge">About Our Clinic</span>
+      <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4" data-i18n="section_about_h">Where Compassion Meets Innovation</h2>
+      <p class="text-slate-400 leading-relaxed" data-i18n="section_about_sub">Since 2010, Smart Clinic Pro has been transforming healthcare through cutting-edge technology, a patient-first philosophy, and a team of world-renowned specialists.</p>
+    </div>
+
+    <!-- Image Gallery -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
+      <div class="col-span-2 row-span-2 rounded-3xl overflow-hidden border border-white/10">
+        <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&h=500&fit=crop" srcset="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=300&h=250&fit=crop 300w, https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&h=500&fit=crop 600w" sizes="(max-width: 768px) 50vw, 33vw" alt="Modern hospital building" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async"/>
+      </div>
+      <div class="rounded-3xl overflow-hidden border border-white/10">
+        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=300&h=200&fit=crop" srcset="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=300&h=200&fit=crop 300w, https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&h=400&fit=crop 600w" sizes="(max-width: 768px) 25vw, 16vw" alt="Advanced medical equipment" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async"/>
+      </div>
+      <div class="rounded-3xl overflow-hidden border border-white/10">
+        <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?w=300&h=200&fit=crop" srcset="https://images.unsplash.com/photo-1551076805-e1869033e561?w=300&h=200&fit=crop 300w, https://images.unsplash.com/photo-1551076805-e1869033e561?w=600&h=400&fit=crop 600w" sizes="(max-width: 768px) 25vw, 16vw" alt="Doctor consultation" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async"/>
+      </div>
+      <div class="rounded-3xl overflow-hidden border border-white/10">
+        <img src="https://images.unsplash.com/photo-1581595220892-b0739db3ba8c?w=300&h=200&fit=crop" srcset="https://images.unsplash.com/photo-1581595220892-b0739db3ba8c?w=300&h=200&fit=crop 300w, https://images.unsplash.com/photo-1581595220892-b0739db3ba8c?w=600&h=400&fit=crop 600w" sizes="(max-width: 768px) 25vw, 16vw" alt="Laboratory diagnostics" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async"/>
+      </div>
+      <div class="rounded-3xl overflow-hidden border border-white/10">
+        <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?w=300&h=200&fit=crop" srcset="https://images.unsplash.com/photo-1516549655169-df83a0774514?w=300&h=200&fit=crop 300w, https://images.unsplash.com/photo-1516549655169-df83a0774514?w=600&h=400&fit=crop 600w" sizes="(max-width: 768px) 25vw, 16vw" alt="Patient recovery room" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async"/>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <div class="grid md:grid-cols-3 gap-6 mb-16">
+      <div class="glass border border-white/8 rounded-3xl p-8 hover:border-brand-500/30 transition-all group">
+        <div class="w-14 h-14 rounded-2xl bg-brand-500/10 flex items-center justify-center mb-6 group-hover:bg-brand-500/20 transition-colors">
+          <i class="fas fa-award text-brand-400 text-xl"></i>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-3" data-i18n="about_feat1_title">JCI Accredited Excellence</h3>
+        <p class="text-sm text-slate-400 leading-relaxed" data-i18n="about_feat1_desc">Internationally accredited by the Joint Commission, meeting the world's highest standards in patient safety and quality care.</p>
+      </div>
+      <div class="glass border border-white/8 rounded-3xl p-8 hover:border-gold-500/30 transition-all group">
+        <div class="w-14 h-14 rounded-2xl bg-gold-500/10 flex items-center justify-center mb-6 group-hover:bg-gold-500/20 transition-colors">
+          <i class="fas fa-microscope text-gold-400 text-xl"></i>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-3" data-i18n="about_feat2_title">Advanced Diagnostic Technology</h3>
+        <p class="text-sm text-slate-400 leading-relaxed" data-i18n="about_feat2_desc">Equipped with the latest MRI, CT scans, and AI-assisted diagnostic tools for precision medicine and faster results.</p>
+      </div>
+      <div class="glass border border-white/8 rounded-3xl p-8 hover:border-green-500/30 transition-all group">
+        <div class="w-14 h-14 rounded-2xl bg-green-500/10 flex items-center justify-center mb-6 group-hover:bg-green-500/20 transition-colors">
+          <i class="fas fa-heartbeat text-green-400 text-xl"></i>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-3" data-i18n="about_feat3_title">Holistic Patient Care</h3>
+        <p class="text-sm text-slate-400 leading-relaxed" data-i18n="about_feat3_desc">Every patient receives a personalized care plan, continuous follow-ups, and 24/7 digital access to their medical team.</p>
+      </div>
+    </div>
+
+    <!-- Rating Progress Bars -->
+    <div class="glass border border-white/8 rounded-3xl p-8 lg:p-10">
+      <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <div>
+          <h3 class="text-2xl font-bold text-white mb-2">
+            <span class="text-brand-400">4.9</span> <span class="text-slate-400 text-lg" data-i18n="overall_rating">Overall Rating</span>
+          </h3>
+          <div class="flex gap-1 mb-4">
+            <i class="fas fa-star text-gold-400"></i><i class="fas fa-star text-gold-400"></i><i class="fas fa-star text-gold-400"></i><i class="fas fa-star text-gold-400"></i><i class="fas fa-star-half-alt text-gold-400"></i>
+          </div>
+          <p class="text-sm text-slate-500">Based on 2,400+ verified patient reviews</p>
+        </div>
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between text-sm mb-1"><span class="text-slate-300" data-i18n="rating_care">Quality of Care</span><span class="text-brand-400 font-semibold">98%</span></div>
+            <div class="h-2 bg-white/5 rounded-full overflow-hidden"><div class="progress-bar-fill h-full bg-gradient-to-r from-brand-500 to-brand-400 rounded-full" data-target="98" style="width:0%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm mb-1"><span class="text-slate-300" data-i18n="rating_staff">Staff Friendliness</span><span class="text-brand-400 font-semibold">96%</span></div>
+            <div class="h-2 bg-white/5 rounded-full overflow-hidden"><div class="progress-bar-fill h-full bg-gradient-to-r from-brand-500 to-brand-400 rounded-full" data-target="96" style="width:0%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm mb-1"><span class="text-slate-300" data-i18n="rating_facility">Facility</span><span class="text-brand-400 font-semibold">95%</span></div>
+            <div class="h-2 bg-white/5 rounded-full overflow-hidden"><div class="progress-bar-fill h-full bg-gradient-to-r from-brand-500 to-brand-400 rounded-full" data-target="95" style="width:0%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm mb-1"><span class="text-slate-300" data-i18n="rating_wait">Wait Time</span><span class="text-gold-400 font-semibold">88%</span></div>
+            <div class="h-2 bg-white/5 rounded-full overflow-hidden"><div class="progress-bar-fill h-full bg-gradient-to-r from-gold-500 to-gold-400 rounded-full" data-target="88" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SERVICES SECTION ===================== -->
+<section id="services" class="py-20 lg:py-28 bg-dark-800 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <span class="inline-block px-4 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-300 text-xs font-semibold mb-4">Our Specialties</span>
+      <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4">Comprehensive Medical Services</h2>
+      <p class="text-slate-400 leading-relaxed">Expert care across three key specialties, all under one roof.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+      <div class="glass border border-white/8 rounded-3xl p-8 hover:border-blue-500/30 transition-all group text-center">
+        <div class="w-16 h-16 rounded-2xl bg-blue-500/10 flex items-center justify-center mx-auto mb-5 group-hover:bg-blue-500/20 transition-colors">
+          <i class="fas fa-stethoscope text-blue-400 text-2xl"></i>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2" data-i18n="svc_internal">Internal Medicine</h3>
+        <p class="text-sm text-slate-400" data-i18n="svc_internal_sub">Diagnosis & prevention</p>
+      </div>
+      <div class="glass border border-white/8 rounded-3xl p-8 hover:border-cyan-500/30 transition-all group text-center">
+        <div class="w-16 h-16 rounded-2xl bg-cyan-500/10 flex items-center justify-center mx-auto mb-5 group-hover:bg-cyan-500/20 transition-colors">
+          <i class="fas fa-tooth text-cyan-400 text-2xl"></i>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2" data-i18n="svc_dentistry">Dentistry</h3>
+        <p class="text-sm text-slate-400" data-i18n="svc_dentistry_sub">Complete oral care</p>
+      </div>
+      <div class="glass border border-white/8 rounded-3xl p-8 hover:border-purple-500/30 transition-all group text-center">
+        <div class="w-16 h-16 rounded-2xl bg-purple-500/10 flex items-center justify-center mx-auto mb-5 group-hover:bg-purple-500/20 transition-colors">
+          <i class="fas fa-bone text-purple-400 text-2xl"></i>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2" data-i18n="svc_ortho">Orthopedics</h3>
+        <p class="text-sm text-slate-400" data-i18n="svc_ortho_sub">Bone & joint care</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DOCTORS SECTION ===================== -->
+<section id="doctors" class="py-20 lg:py-28 bg-dark-900 relative">
+  <div class="absolute inset-0 bg-gradient-radial from-brand-500/5 to-transparent"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="inline-block px-4 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-300 text-xs font-semibold mb-4" data-i18n="section_doctors_badge">Our Specialists</span>
+      <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4" data-i18n="section_doctors_h">Expert Physicians You Can Trust</h2>
+      <p class="text-slate-400 leading-relaxed" data-i18n="section_doctors_sub">Our board-certified specialists bring decades of experience and genuine compassion to every patient interaction.</p>
+    </div>
+
+    <!-- Specialty Tabs -->
+    <div class="flex flex-wrap justify-center gap-3 mb-10">
+      <button onclick="filterDoctors('all')" class="specialty-tab px-5 py-2.5 rounded-full text-sm font-medium transition-all" data-i18n="tab_all">All</button>
+      <button onclick="filterDoctors('internal')" class="specialty-tab px-5 py-2.5 rounded-full text-sm font-medium transition-all" data-i18n="tab_internal">Internal Medicine</button>
+      <button onclick="filterDoctors('dentistry')" class="specialty-tab px-5 py-2.5 rounded-full text-sm font-medium transition-all" data-i18n="tab_dentistry">Dentistry</button>
+      <button onclick="filterDoctors('ortho')" class="specialty-tab px-5 py-2.5 rounded-full text-sm font-medium transition-all" data-i18n="tab_ortho">Orthopedics</button>
+    </div>
+
+    <!-- Doctors Grid -->
+    <div id="doctorsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </div>
+</section>
+
+<!-- ===================== DOCTOR DETAIL MODAL ===================== -->
+<div id="doctorDetailModal" class="modal-overlay hidden fixed inset-0 z-[100] items-center justify-center bg-black/60 backdrop-blur-sm">
+  <div class="modal-box glass border border-white/10 rounded-3xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto transform scale-95 opacity-0 transition-all duration-300">
+    <!-- Close -->
+    <button onclick="closeModal('doctorDetailModal')" class="absolute top-4 right-4 w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center text-slate-400 hover:text-white transition-colors z-10"><i class="fas fa-times"></i></button>
+
+    <!-- Hero Photo -->
+    <div id="ddPhotoWrap" class="relative w-full h-56 rounded-t-3xl overflow-hidden bg-dark-800">
+      <img id="ddPhoto" src="" alt="" class="w-full h-full object-cover object-center" />
+      <div class="absolute inset-0 bg-gradient-to-t from-dark-900/90 via-dark-900/20 to-transparent"></div>
+      <!-- Specialty Badge -->
+      <div class="absolute top-4 left-4">
+        <span id="ddSpecialtyBadge" class="px-3 py-1 rounded-full border text-xs font-medium"></span>
+      </div>
+      <!-- Availability -->
+      <div class="absolute bottom-4 left-4">
+        <span id="ddAvailability" class="px-2.5 py-1 rounded-full text-xs font-medium"></span>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="p-6">
+      <!-- Name & Qualifications -->
+      <div class="mb-4">
+        <h3 id="ddName" class="text-xl font-bold text-white"></h3>
+        <p id="ddQualifications" class="text-sm text-slate-500 mt-0.5"></p>
+      </div>
+
+      <!-- Rating -->
+      <div class="flex items-center gap-3 mb-4">
+        <div id="ddStars" class="flex gap-0.5"></div>
+        <span id="ddRating" class="text-sm font-semibold text-white"></span>
+        <span id="ddReviews" class="text-xs text-slate-500"></span>
+      </div>
+
+      <!-- Bio -->
+      <p id="ddBio" class="text-sm text-slate-400 leading-relaxed mb-5"></p>
+
+      <!-- Info Grid -->
+      <div class="grid grid-cols-2 gap-3 mb-5">
+        <div class="glass border border-white/8 rounded-xl p-3 text-center">
+          <div class="text-brand-400 text-lg font-bold"><i class="fas fa-briefcase text-sm mr-1"></i><span id="ddExperience"></span></div>
+          <div class="text-[10px] text-slate-500 mt-0.5">Experience</div>
+        </div>
+        <div class="glass border border-white/8 rounded-xl p-3 text-center">
+          <div class="text-brand-400 text-lg font-bold"><i class="fas fa-user-md text-sm mr-1"></i><span id="ddPatients"></span></div>
+          <div class="text-[10px] text-slate-500 mt-0.5">Patients</div>
+        </div>
+      </div>
+
+      <!-- Inquiry Chat (visible for logged-in patients) -->
+      <div id="ddInquirySection" class="hidden border-t border-white/10 pt-4 mt-2">
+        <h4 class="text-sm font-semibold text-white mb-3"><i class="fas fa-comment-medical text-brand-400 mr-1"></i>Send an Inquiry</h4>
+        <div id="ddChatMessages" class="h-40 overflow-y-auto mb-3 space-y-2 rounded-xl bg-dark-800/30 p-3 border border-white/5"></div>
+        <div class="flex gap-2">
+          <input id="ddChatInput" type="text" placeholder="Type your question..." class="flex-1 px-3 py-2 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-500/50" onkeydown="if(event.key==='Enter')sendDoctorInquiry()"/>
+          <button onclick="sendDoctorInquiry()" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white transition-colors"><i class="fas fa-paper-plane"></i></button>
+        </div>
+      </div>
+
+      <!-- Login prompt for non-logged-in -->
+      <div id="ddLoginPrompt" class="hidden border-t border-white/10 pt-4 mt-2 text-center">
+        <p class="text-sm text-slate-500 mb-2"><i class="fas fa-lock text-slate-500 mr-1"></i>Sign in to send inquiries to this doctor</p>
+        <button onclick="closeModal('doctorDetailModal');openModal('loginModal')" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition-colors">Sign In</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== TESTIMONIALS SECTION ===================== -->
+<section id="testimonials" class="py-20 lg:py-28 bg-dark-800 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="inline-block px-4 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-300 text-xs font-semibold mb-4" data-i18n="section_test_badge">Patient Testimonials</span>
+      <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4" data-i18n="section_test_h">Voices of Our Patients</h2>
+      <p class="text-slate-400 leading-relaxed" data-i18n="section_test_sub">Real stories from real patients. Their trust drives everything we do.</p>
+    </div>
+
+    <!-- Reviews Grid -->
+    <div id="testimonialGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
+    <div id="testimonialMoreWrap" class="text-center mt-8">
+      <button onclick="showAllTestimonials()" id="testimonialMoreBtn" class="px-6 py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-sm font-semibold transition-all hover:scale-105">
+        <i class="fas fa-plus-circle mr-1"></i> <span data-i18n="show_more">Show More</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BOOKING SECTION ===================== -->
+<section id="booking" class="py-20 lg:py-28 bg-dark-900 relative">
+  <div class="absolute inset-0 bg-gradient-radial from-brand-500/5 to-transparent"></div>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="inline-block px-4 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-300 text-xs font-semibold mb-4" data-i18n="section_booking_badge">Online Booking</span>
+      <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4" data-i18n="section_booking_h">Schedule Your Appointment</h2>
+      <p class="text-slate-400 leading-relaxed" data-i18n="section_booking_sub">Quick, easy, and secure. Book your appointment in under 2 minutes.</p>
+    </div>
+
+    <div class="glass border border-white/8 rounded-3xl p-8 lg:p-10">
+      <form id="bookingForm" onsubmit="submitBooking(event)">
+        <!-- Error Message -->
+        <div id="bookingError" class="hidden mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm">
+          <i class="fas fa-exclamation-circle mr-2"></i>
+          <span id="bookingErrorMsg"></span>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-5">
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-2" data-i18n="form_name">Full Name</label>
+            <input id="bookingName" type="text" required placeholder="John Doe" class="w-full px-4 py-3 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-500/50 transition-colors" data-i18n-placeholder="form_name_ph"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-2" data-i18n="form_age">Age</label>
+            <input id="bookingAge" type="number" min="1" max="120" placeholder="35" class="w-full px-4 py-3 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-500/50 transition-colors" data-i18n-placeholder="form_age_ph"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-2" data-i18n="form_gender">Gender</label>
+            <select id="bookingGender" required class="w-full px-4 py-3 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50 transition-colors">
+              <option value="">Select</option>
+              <option value="male" data-i18n="gender_male">Male</option>
+              <option value="female" data-i18n="gender_female">Female</option>
+              <option value="child" data-i18n="gender_child">Child (under 12)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-2" data-i18n="form_specialty">Specialty</label>
+            <select id="bookingSpecialty" required onchange="updateDoctorSelect()" class="w-full px-4 py-3 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50 transition-colors">
+              <option value="">Select specialty</option>
+              <option value="internal" data-i18n="spec_internal">Internal Medicine</option>
+              <option value="dentistry" data-i18n="spec_dentistry">Dentistry</option>
+              <option value="ortho" data-i18n="spec_ortho">Orthopedics</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-2">Doctor (Optional)</label>
+            <select id="bookingDoctor" class="w-full px-4 py-3 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50 transition-colors">
+              <option value="">Select a doctor</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-2" data-i18n="form_date">Preferred Date</label>
+            <input id="bookingDate" type="date" class="w-full px-4 py-3 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50 transition-colors"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-2" data-i18n="form_email">Email Address</label>
+            <input id="bookingEmail" type="email" placeholder="you@example.com" class="w-full px-4 py-3 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-500/50 transition-colors"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-2" data-i18n="form_phone">Phone Number</label>
+            <input id="bookingPhone" type="tel" placeholder="+1 (555) 000-0000" class="w-full px-4 py-3 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-500/50 transition-colors" data-i18n-placeholder="form_phone_ph"/>
+          </div>
+        </div>
+
+        <div class="mt-5">
+          <label class="block text-sm font-medium text-slate-300 mb-2" data-i18n="form_notes">Notes / Symptoms</label>
+          <textarea id="bookingNotes" rows="3" placeholder="Briefly describe your symptoms or reason for visit..." class="w-full px-4 py-3 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-500/50 transition-colors resize-none" data-i18n-placeholder="form_notes_ph"></textarea>
+        </div>
+
+        <!-- Payment Method -->
+        <div id="paymentMethodGroup" class="mt-6">
+          <label class="block text-sm font-medium text-slate-300 mb-3">Payment Method</label>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="cursor-pointer">
+              <input type="radio" name="bookingPayMethod" value="card" checked class="sr-only"/>
+              <div class="pay-opt-card glass border border-white/10 rounded-xl p-4 text-center transition-all">
+                <i class="fas fa-credit-card text-brand-400 text-lg mb-2"></i>
+                <div class="text-xs text-slate-300">Visa / MC</div>
+              </div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="bookingPayMethod" value="cash" class="sr-only"/>
+              <div class="pay-opt-card glass border border-white/10 rounded-xl p-4 text-center transition-all">
+                <i class="fas fa-money-bill-wave text-green-400 text-lg mb-2"></i>
+                <div class="text-xs text-slate-300">Cash</div>
+              </div>
+            </label>
+          </div>
+          <p id="payMethodNote" class="text-xs text-slate-500 mt-3">Secure Visa / Mastercard payment via Stripe after approval.</p>
+        </div>
+
+        <button type="submit" class="w-full mt-6 py-4 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-white font-semibold shadow-lg shadow-brand-600/25 transition-all hover:-translate-y-0.5">
+          <i class="fas fa-calendar-check mr-2"></i>
+          <span data-i18n="btn_book">Book Appointment</span>
+        </button>
+
+        <p class="text-center text-xs text-slate-500 mt-4" data-i18n="booking_note">You will receive a confirmation email within 30 minutes.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== INLINE DASHBOARD SECTION ===================== -->
+<section id="inlineDashboardSection" class="hidden py-20 lg:py-28 bg-dark-900 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Inline Doctor Dashboard -->
+    <div id="inlineDoctorDash" class="hidden">
+      <div class="text-center mb-10">
+        <span class="inline-block px-4 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-300 text-xs font-semibold mb-4">Doctor Dashboard</span>
+        <h2 class="text-2xl lg:text-3xl font-bold text-white">Welcome, <span id="iDocDashName">Doctor</span></h2>
+        <p class="text-slate-400 mt-1" id="iDocDashSpec">Doctor Dashboard · Specialist</p>
+      </div>
+
+      <!-- Stats (6) -->
+      <div class="grid grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
+        <div class="glass border border-white/8 rounded-2xl p-4 text-center">
+          <div id="iDocStatToday" class="text-xl font-bold text-brand-400">0</div>
+          <div class="text-xs text-slate-400 mt-1">Today</div>
+        </div>
+        <div class="glass border border-white/8 rounded-2xl p-4 text-center">
+          <div id="iDocStatPending" class="text-xl font-bold text-gold-400">0</div>
+          <div class="text-xs text-slate-400 mt-1">Pending</div>
+        </div>
+        <div class="glass border border-white/8 rounded-2xl p-4 text-center">
+          <div id="iDocStatApproved" class="text-xl font-bold text-green-400">0</div>
+          <div class="text-xs text-slate-400 mt-1">Approved</div>
+        </div>
+        <div class="glass border border-white/8 rounded-2xl p-4 text-center">
+          <div id="iDocStatPostponed" class="text-xl font-bold text-blue-400">0</div>
+          <div class="text-xs text-slate-400 mt-1">Postponed</div>
+        </div>
+        <div class="glass border border-white/8 rounded-2xl p-4 text-center">
+          <div id="iDocStatCancelled" class="text-xl font-bold text-red-400">0</div>
+          <div class="text-xs text-slate-400 mt-1">Cancelled</div>
+        </div>
+        <div class="glass border border-white/8 rounded-2xl p-4 text-center">
+          <div id="iDocStatTotal" class="text-xl font-bold text-white">0</div>
+          <div class="text-xs text-slate-400 mt-1">Total</div>
+        </div>
+      </div>
+
+      <!-- Search + Date Filter -->
+      <div class="flex flex-col sm:flex-row gap-3 mb-4">
+        <div class="relative flex-1">
+          <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+          <input id="iDocSearchInput" type="text" oninput="iDocSearchPatients(this.value)" placeholder="Search by patient name..." class="w-full pl-8 pr-3 py-2.5 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-500/50"/>
+        </div>
+        <select id="iDocDateFilter" onchange="iDocSetDateFilter(this.value)" class="px-3 py-2.5 rounded-xl bg-dark-800/50 border border-white/10 text-xs text-white focus:outline-none">
+          <option value="all">All Dates</option>
+          <option value="today">Today</option>
+          <option value="week">This Week</option>
+          <option value="month">This Month</option>
+        </select>
+      </div>
+
+      <!-- Filter Tabs (5) -->
+      <div class="flex flex-wrap gap-2 mb-6">
+        <button onclick="iDocSetFilter('pending')"   id="iDocFilter-pending"   class="i-doc-filter-tab px-4 py-2 rounded-full text-xs font-medium bg-brand-600 text-white transition-all">Pending</button>
+        <button onclick="iDocSetFilter('approved')"  id="iDocFilter-approved"  class="i-doc-filter-tab px-4 py-2 rounded-full text-xs font-medium text-slate-400 hover:bg-white/5 transition-all">Approved</button>
+        <button onclick="iDocSetFilter('postponed')" id="iDocFilter-postponed" class="i-doc-filter-tab px-4 py-2 rounded-full text-xs font-medium text-slate-400 hover:bg-white/5 transition-all">Postponed</button>
+        <button onclick="iDocSetFilter('cancelled')" id="iDocFilter-cancelled" class="i-doc-filter-tab px-4 py-2 rounded-full text-xs font-medium text-slate-400 hover:bg-white/5 transition-all">Cancelled</button>
+        <button onclick="iDocSetFilter('all')"       id="iDocFilter-all"       class="i-doc-filter-tab px-4 py-2 rounded-full text-xs font-medium text-slate-400 hover:bg-white/5 transition-all">All</button>
+      </div>
+
+      <!-- Appointments -->
+      <div id="iDocApptsList" class="space-y-3 mb-8"></div>
+
+      <!-- Patient Chat -->
+      <div class="glass border border-white/8 rounded-3xl overflow-hidden">
+        <!-- Header -->
+        <div class="flex items-center justify-between px-5 py-4 border-b border-white/8 bg-dark-800/50">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-brand-500/20 flex items-center justify-center">
+              <i class="fas fa-comments text-brand-400"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-white">Patient Conversations</h3>
+              <p id="iDocChatSubtitle" class="text-[11px] text-slate-500">Select a patient below</p>
+            </div>
+          </div>
+          <div id="iDocOnlineDot" class="hidden items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+            <span class="text-[11px] text-green-400 font-medium">Active</span>
+          </div>
+        </div>
+
+        <!-- Patient Tabs -->
+        <div class="px-4 py-3 border-b border-white/5 bg-dark-900/30 overflow-x-auto">
+          <div id="iDocChatPatientTabs" class="flex gap-2 pb-0.5 min-w-max">
+            <span class="text-xs text-slate-600 py-1">No patients yet</span>
+          </div>
+        </div>
+
+        <!-- Messages -->
+        <div id="iDocChatMessages" class="h-80 overflow-y-auto p-5 chat-panel-body flex flex-col gap-1">
+          <div class="flex flex-col items-center justify-center h-full gap-3 opacity-40">
+            <div class="w-16 h-16 rounded-2xl bg-brand-500/10 flex items-center justify-center">
+              <i class="fas fa-comment-medical text-brand-400 text-2xl"></i>
+            </div>
+            <p class="text-sm text-slate-500 text-center">Select a patient tab above<br/>to view the conversation</p>
+          </div>
+        </div>
+
+        <!-- Input -->
+        <div class="flex items-center gap-3 px-4 py-3 chat-input-bar">
+          <input id="iDocChatInput" type="text" placeholder="Type your reply…"
+            class="flex-1 px-4 py-2.5 rounded-2xl chat-input-field text-sm text-white placeholder-slate-500"
+            onkeydown="if(event.key==='Enter'&&!event.shiftKey){sendIinlineDocChat();event.preventDefault()}"/>
+          <button onclick="sendIinlineDocChat()"
+            class="w-10 h-10 rounded-2xl chat-send-btn text-white flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-paper-plane text-sm"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Logout -->
+      <button onclick="handleLogout()" class="w-full mt-6 py-2.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm font-medium hover:bg-red-500/20 transition-colors">
+        <i class="fas fa-sign-out-alt mr-1"></i>Sign Out
+      </button>
+    </div>
+
+    <!-- Inline Admin Dashboard -->
+    <div id="inlineAdminDash" class="hidden">
+      <div class="text-center mb-10">
+        <span class="inline-block px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-300 text-xs font-semibold mb-4">Admin Dashboard</span>
+        <h2 class="text-2xl lg:text-3xl font-bold text-white">Administration Panel</h2>
+        <p class="text-slate-400 text-sm mt-2">Manage appointments, doctors, patients &amp; analytics</p>
+      </div>
+
+      <!-- Stats (8) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 mb-8">
+        <div class="glass border border-white/8 rounded-2xl p-3 text-center">
+          <div id="iAdminStatTotal" class="text-xl font-bold text-white">0</div>
+          <div class="text-xs text-slate-400 mt-1">Total</div>
+        </div>
+        <div class="glass border border-white/8 rounded-2xl p-3 text-center">
+          <div id="iAdminStatPending" class="text-xl font-bold text-gold-400">0</div>
+          <div class="text-xs text-slate-400 mt-1">Pending</div>
+        </div>
+        <div class="glass border border-white/8 rounded-2xl p-3 text-center">
+          <div id="iAdminStatApproved" class="text-xl font-bold text-green-400">0</div>
+          <div class="text-xs text-slate-400 mt-1">Approved</div>
+        </div>
+        <div class="glass border border-white/8 rounded-2xl p-3 text-center">
+          <div id="iAdminStatCancelled" class="text-xl font-bold text-red-400">0</div>
+          <div class="text-xs text-slate-400 mt-1">Cancelled</div>
+        </div>
+        <div class="glass border border-white/8 rounded-2xl p-3 text-center">
+          <div id="iAdminStatPostponed" class="text-xl font-bold text-blue-400">0</div>
+          <div class="text-xs text-slate-400 mt-1">Postponed</div>
+        </div>
+        <div class="glass border border-white/8 rounded-2xl p-3 text-center">
+          <div id="iAdminStatToday" class="text-xl font-bold text-brand-400">0</div>
+          <div class="text-xs text-slate-400 mt-1">Today</div>
+        </div>
+        <div class="glass border border-white/8 rounded-2xl p-3 text-center">
+          <div id="iAdminStatWeek" class="text-xl font-bold text-purple-400">0</div>
+          <div class="text-xs text-slate-400 mt-1">This Week</div>
+        </div>
+        <div class="glass border border-white/8 rounded-2xl p-3 text-center">
+          <div id="iAdminStatRevenue" class="text-xl font-bold text-cyan-400">$0</div>
+          <div class="text-xs text-slate-400 mt-1">Revenue</div>
+        </div>
+      </div>
+
+      <!-- Tabs (5) -->
+      <div class="flex gap-2 mb-6 flex-wrap">
+        <button id="iAdminTab-appointments" onclick="iAdminSwitchTab('appointments')" class="px-4 py-2 rounded-full text-xs font-medium bg-red-600 text-white">Appointments</button>
+        <button id="iAdminTab-doctors"      onclick="iAdminSwitchTab('doctors')"      class="px-4 py-2 rounded-full text-xs font-medium text-slate-400">Doctors</button>
+        <button id="iAdminTab-patients"     onclick="iAdminSwitchTab('patients')"     class="px-4 py-2 rounded-full text-xs font-medium text-slate-400">Patients</button>
+        <button id="iAdminTab-analytics"    onclick="iAdminSwitchTab('analytics')"    class="px-4 py-2 rounded-full text-xs font-medium text-slate-400">Analytics</button>
+        <button id="iAdminTab-addDoctor"    onclick="iAdminSwitchTab('addDoctor')"    class="px-4 py-2 rounded-full text-xs font-medium text-slate-400">+ Add Doctor</button>
+      </div>
+
+      <!-- Appointments Pane -->
+      <div id="iAdminPane-appointments" class="block">
+        <div class="flex flex-wrap items-center gap-3 mb-4">
+          <select id="iAdminStatusFilter" onchange="loadInlineAdminAppts()" class="px-3 py-2 rounded-xl bg-dark-800/50 border border-white/10 text-xs text-white focus:outline-none">
+            <option value="">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="postponed">Postponed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+          <span id="iAdminApptCount" class="text-xs text-slate-500"></span>
+          <div id="iAdminDoctorTabs" class="flex gap-2 overflow-x-auto"></div>
+        </div>
+        <div id="iAdminApptsList"></div>
+      </div>
+
+      <!-- Doctors Pane -->
+      <div id="iAdminPane-doctors" class="hidden">
+        <div id="iAdminDoctorsList"></div>
+      </div>
+
+      <!-- Patients Pane -->
+      <div id="iAdminPane-patients" class="hidden">
+        <div class="flex flex-wrap items-center gap-3 mb-4">
+          <div class="relative flex-1 min-w-[200px]">
+            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+            <input id="iAdminPatientSearch" type="text" oninput="loadInlineAdminPatients(this.value)" placeholder="Search by name, email or phone..." class="w-full pl-8 pr-3 py-2.5 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-500/50"/>
+          </div>
+          <span id="iAdminPatientCount" class="text-xs text-slate-500"></span>
+        </div>
+        <div id="iAdminPatientsList" class="space-y-2">
+          <div class="flex items-center justify-center py-8 gap-2 text-slate-400"><i class="fas fa-spinner fa-spin text-brand-400"></i><span class="text-sm">Loading...</span></div>
+        </div>
+      </div>
+
+      <!-- Analytics Pane -->
+      <div id="iAdminPane-analytics" class="hidden">
+        <div class="grid sm:grid-cols-2 gap-4 mb-4">
+          <div class="glass border border-white/8 rounded-xl p-4">
+            <h4 class="text-sm font-semibold text-white mb-3"><i class="fas fa-chart-pie text-brand-400 mr-2"></i>Appointments by Status</h4>
+            <div class="space-y-2">
+              <div class="flex items-center gap-2 text-xs"><span class="w-2 h-2 rounded-full bg-gold-400 flex-shrink-0"></span><span class="text-slate-400 w-20">Pending</span><div class="flex-1 h-3 bg-white/5 rounded-full overflow-hidden"><div id="iAchartPending" class="h-full bg-gold-400 rounded-full" style="width:0%"></div></div><span id="iAchartPendingLabel" class="text-white w-8 text-right">0</span></div>
+              <div class="flex items-center gap-2 text-xs"><span class="w-2 h-2 rounded-full bg-green-400 flex-shrink-0"></span><span class="text-slate-400 w-20">Approved</span><div class="flex-1 h-3 bg-white/5 rounded-full overflow-hidden"><div id="iAchartApproved" class="h-full bg-green-400 rounded-full" style="width:0%"></div></div><span id="iAchartApprovedLabel" class="text-white w-8 text-right">0</span></div>
+              <div class="flex items-center gap-2 text-xs"><span class="w-2 h-2 rounded-full bg-blue-400 flex-shrink-0"></span><span class="text-slate-400 w-20">Postponed</span><div class="flex-1 h-3 bg-white/5 rounded-full overflow-hidden"><div id="iAchartPostponed" class="h-full bg-blue-400 rounded-full" style="width:0%"></div></div><span id="iAchartPostponedLabel" class="text-white w-8 text-right">0</span></div>
+              <div class="flex items-center gap-2 text-xs"><span class="w-2 h-2 rounded-full bg-red-400 flex-shrink-0"></span><span class="text-slate-400 w-20">Cancelled</span><div class="flex-1 h-3 bg-white/5 rounded-full overflow-hidden"><div id="iAchartCancelled" class="h-full bg-red-400 rounded-full" style="width:0%"></div></div><span id="iAchartCancelledLabel" class="text-white w-8 text-right">0</span></div>
+            </div>
+          </div>
+          <div class="glass border border-white/8 rounded-xl p-4">
+            <h4 class="text-sm font-semibold text-white mb-3"><i class="fas fa-credit-card text-gold-400 mr-2"></i>Revenue by Method</h4>
+            <div class="space-y-2">
+              <div class="flex items-center gap-2 text-xs"><span class="w-2 h-2 rounded-full bg-blue-400 flex-shrink-0"></span><span class="text-slate-400 w-20">Visa/MC</span><div class="flex-1 h-3 bg-white/5 rounded-full overflow-hidden"><div id="iArevCard" class="h-full bg-blue-400 rounded-full" style="width:0%"></div></div><span id="iArevCardLabel" class="text-white w-12 text-right">$0</span></div>
+              <div class="flex items-center gap-2 text-xs"><span class="w-2 h-2 rounded-full bg-green-400 flex-shrink-0"></span><span class="text-slate-400 w-20">Cash</span><div class="flex-1 h-3 bg-white/5 rounded-full overflow-hidden"><div id="iArevCash" class="h-full bg-green-400 rounded-full" style="width:0%"></div></div><span id="iArevCashLabel" class="text-white w-12 text-right">$0</span></div>
+              <div class="flex items-center gap-2 text-xs"><span class="w-2 h-2 rounded-full bg-slate-400 flex-shrink-0"></span><span class="text-slate-400 w-20">Apple Pay</span><div class="flex-1 h-3 bg-white/5 rounded-full overflow-hidden"><div id="iArevApple" class="h-full bg-slate-400 rounded-full" style="width:0%"></div></div><span id="iArevAppleLabel" class="text-white w-12 text-right">$0</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="glass border border-white/8 rounded-xl p-4">
+          <h4 class="text-sm font-semibold text-white mb-3"><i class="fas fa-clock text-purple-400 mr-2"></i>Recent Activity</h4>
+          <div id="iAadminActivityLog" class="space-y-1 text-xs max-h-48 overflow-y-auto">
+            <div class="text-center py-4 text-slate-500">Loading...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Doctor Pane -->
+      <div id="iAdminPane-addDoctor" class="hidden">
+        <div class="glass border border-white/8 rounded-2xl p-6 max-w-lg">
+          <h3 class="text-lg font-bold text-white mb-4">Add New Doctor</h3>
+          <form onsubmit="iAdminAddDoctor(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs text-slate-300 mb-1">Email</label>
+              <input id="iNewDocEmail" type="email" required class="w-full px-3 py-2 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-300 mb-1">Name</label>
+              <input id="iNewDocName" type="text" required class="w-full px-3 py-2 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-300 mb-1">Specialty</label>
+              <input id="iNewDocSpec" type="text" required class="w-full px-3 py-2 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-300 mb-1">Bio</label>
+              <textarea id="iNewDocBio" rows="2" class="w-full px-3 py-2 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50 resize-none"></textarea>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-300 mb-1">Photo (Optional)</label>
+              <div class="flex items-center gap-3">
+                <div id="iNewDocPhotoPreview" class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center"><i class="fas fa-user-md text-slate-600 text-xl" id="iNewDocPhotoIcon"></i></div>
+                <label class="cursor-pointer px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-xs text-slate-300 hover:bg-white/10 transition-colors">
+                  <i class="fas fa-upload mr-1"></i> Choose File
+                  <input id="iNewDocPhoto" type="file" accept="image/*" onchange="previewDocPhoto('iNewDocPhoto','iNewDocPhotoPreview','iNewDocPhotoIcon')" class="hidden"/>
+                </label>
+              </div>
+              <div id="iNewDocPhotoName" class="text-[10px] text-slate-500 mt-1">No file selected</div>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-300 mb-1"><i class="fas fa-lock text-brand-400/60 mr-1"></i>Login Password <span class="text-red-400">*</span></label>
+              <div class="relative">
+                <input id="iNewDocPassword" type="password" required placeholder="Set doctor's login password" class="w-full px-3 py-2 pr-9 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+                <button type="button" onclick="togglePass('iNewDocPassword')" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"><i class="fas fa-eye text-xs"></i></button>
+              </div>
+              <p class="text-[10px] text-slate-500 mt-1"><i class="fas fa-info-circle mr-1"></i>Doctor will use this password to sign in</p>
+            </div>
+            <div class="space-y-2">
+              <label class="flex items-center gap-2 text-xs text-slate-300"><input id="iNewDocViewOwn" type="checkbox" checked class="rounded bg-dark-800 border-white/20"/> View own appointments only</label>
+              <label class="flex items-center gap-2 text-xs text-slate-300"><input id="iNewDocCanApprove" type="checkbox" checked class="rounded bg-dark-800 border-white/20"/> Can approve appointments</label>
+              <label class="flex items-center gap-2 text-xs text-slate-300"><input id="iNewDocCanCancel" type="checkbox" checked class="rounded bg-dark-800 border-white/20"/> Can cancel appointments</label>
+            </div>
+            <button type="submit" class="w-full py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-sm font-semibold transition-colors"><i class="fas fa-plus mr-1"></i>Add Doctor</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Logout -->
+      <button onclick="handleLogout()" class="w-full mt-6 py-2.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm font-medium hover:bg-red-500/20 transition-colors">
+        <i class="fas fa-sign-out-alt mr-1"></i>Sign Out
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT SECTION ===================== -->
+<section id="contact" class="py-20 lg:py-28 bg-dark-800 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="inline-block px-4 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-300 text-xs font-semibold mb-4">Get in Touch</span>
+      <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4">Contact Us</h2>
+      <p class="text-slate-400 leading-relaxed">We are here to help. Reach out through any of the channels below.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 mb-12">
+      <div class="glass border border-white/8 rounded-3xl p-8 text-center hover:border-brand-500/30 transition-all group">
+        <div class="w-14 h-14 rounded-2xl bg-brand-500/10 flex items-center justify-center mx-auto mb-5 group-hover:bg-brand-500/20 transition-colors">
+          <i class="fas fa-phone text-brand-400 text-xl"></i>
+        </div>
+        <h3 class="text-base font-bold text-white mb-2" data-i18n="contact_phone">Phone</h3>
+        <p class="text-sm text-slate-400">+1 (555) 123-4567</p>
+        <p class="text-xs text-slate-500 mt-1">Mon-Sat, 8AM-8PM</p>
+      </div>
+      <div class="glass border border-white/8 rounded-3xl p-8 text-center hover:border-gold-500/30 transition-all group">
+        <div class="w-14 h-14 rounded-2xl bg-gold-500/10 flex items-center justify-center mx-auto mb-5 group-hover:bg-gold-500/20 transition-colors">
+          <i class="fas fa-envelope text-gold-400 text-xl"></i>
+        </div>
+        <h3 class="text-base font-bold text-white mb-2" data-i18n="contact_email">Email</h3>
+        <p class="text-sm text-slate-400">info@smartclinicpro.com</p>
+        <p class="text-xs text-slate-500 mt-1">24/7 Response</p>
+      </div>
+      <div class="glass border border-white/8 rounded-3xl p-8 text-center hover:border-green-500/30 transition-all group">
+        <div class="w-14 h-14 rounded-2xl bg-green-500/10 flex items-center justify-center mx-auto mb-5 group-hover:bg-green-500/20 transition-colors">
+          <i class="fas fa-map-marker-alt text-green-400 text-xl"></i>
+        </div>
+        <h3 class="text-base font-bold text-white mb-2" data-i18n="contact_address">Address</h3>
+        <p class="text-sm text-slate-400">123 Medical Center Blvd</p>
+        <p class="text-xs text-slate-500 mt-1">New York, NY 10001</p>
+      </div>
+    </div>
+
+    <!-- Map -->
+    <div class="glass border border-white/8 rounded-3xl overflow-hidden h-64 lg:h-80">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.2!2d-73.9857!3d40.7484!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQ0JzU0LjIiTiA3M8KwNTknMDguNSJX!5e0!3m2!1sen!2sus!4v1" width="100%" height="100%" style="border:0;filter:invert(90%) hue-rotate(180deg);" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CTA SECTION ===================== -->
+<section id="cta" class="py-20 lg:py-28 bg-dark-900 relative overflow-hidden">
+  <div class="absolute inset-0 bg-gradient-radial from-brand-500/10 to-transparent"></div>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+    <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4" data-i18n="cta_title">Ready to prioritize your health?</h2>
+    <p class="text-slate-400 text-lg mb-8" data-i18n="cta_sub">Join 12,000+ patients who trust Smart Clinic Pro.</p>
+    <a href="#booking" class="inline-flex items-center px-8 py-4 rounded-2xl bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-white font-semibold shadow-xl shadow-brand-600/25 hover:shadow-brand-500/40 transition-all hover:-translate-y-0.5">
+      <i class="fas fa-calendar-check mr-2"></i>
+      <span data-i18n="btn_book">Book Appointment</span>
+    </a>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="bg-dark-800 border-t border-white/5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+      <!-- Brand -->
+      <div class="sm:col-span-2 lg:col-span-1">
+        <a href="#hero" class="flex items-center gap-2 mb-4">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center">
+            <i class="fas fa-plus text-white text-sm"></i>
+          </div>
+          <span class="text-lg font-bold text-white">Smart<span class="text-brand-400">Clinic</span><span class="text-gold-400">Pro</span></span>
+        </a>
+        <p class="text-sm text-slate-400 leading-relaxed" data-i18n="footer_brand_desc">Delivering world-class healthcare with compassion, innovation, and the highest professional standards.</p>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h4 class="text-sm font-semibold text-white mb-4" data-i18n="footer_links">Quick Links</h4>
+        <div class="space-y-2">
+          <a href="#about" class="block text-sm text-slate-400 hover:text-brand-400 transition-colors">About Us</a>
+          <a href="#doctors" class="block text-sm text-slate-400 hover:text-brand-400 transition-colors">Our Doctors</a>
+          <a href="#booking" class="block text-sm text-slate-400 hover:text-brand-400 transition-colors">Book Appointment</a>
+          <a href="#testimonials" class="block text-sm text-slate-400 hover:text-brand-400 transition-colors">Testimonials</a>
+          <a href="#contact" class="block text-sm text-slate-400 hover:text-brand-400 transition-colors">Contact</a>
+        </div>
+      </div>
+
+      <!-- Specialties -->
+      <div>
+        <h4 class="text-sm font-semibold text-white mb-4" data-i18n="footer_services">Specialties</h4>
+        <div class="space-y-2">
+          <a href="#doctors" class="block text-sm text-slate-400 hover:text-brand-400 transition-colors" data-i18n="svc_internal">Internal Medicine</a>
+          <a href="#doctors" class="block text-sm text-slate-400 hover:text-brand-400 transition-colors" data-i18n="svc_dentistry">Dentistry</a>
+          <a href="#doctors" class="block text-sm text-slate-400 hover:text-brand-400 transition-colors" data-i18n="svc_ortho">Orthopedics</a>
+        </div>
+      </div>
+
+      <!-- Hours -->
+      <div>
+        <h4 class="text-sm font-semibold text-white mb-4">Working Hours</h4>
+        <div class="space-y-2 text-sm text-slate-400">
+          <p data-i18n="hours_weekday">Mon–Sat: 8AM – 8PM</p>
+          <p data-i18n="hours_emergency">Emergency: 24/7</p>
+        </div>
+        <div class="flex gap-3 mt-4">
+          <a href="#" class="w-9 h-9 rounded-xl glass border border-white/10 flex items-center justify-center text-slate-400 hover:text-brand-400 hover:border-brand-500/40 transition-all"><i class="fab fa-facebook-f text-sm"></i></a>
+          <a href="#" class="w-9 h-9 rounded-xl glass border border-white/10 flex items-center justify-center text-slate-400 hover:text-brand-400 hover:border-brand-500/40 transition-all"><i class="fab fa-twitter text-sm"></i></a>
+          <a href="#" class="w-9 h-9 rounded-xl glass border border-white/10 flex items-center justify-center text-slate-400 hover:text-brand-400 hover:border-brand-500/40 transition-all"><i class="fab fa-instagram text-sm"></i></a>
+          <a href="#" class="w-9 h-9 rounded-xl glass border border-white/10 flex items-center justify-center text-slate-400 hover:text-brand-400 hover:border-brand-500/40 transition-all"><i class="fab fa-linkedin-in text-sm"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-white/5 pt-8 text-center">
+      <p class="text-xs text-slate-500">&copy; 2025 Smart Clinic Pro. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== CHAT WIDGET ===================== -->
+<div id="chatWidget" class="fixed bottom-6 right-6 z-50">
+  <!-- Chat Panel -->
+  <div id="chatPanel" class="hidden flex-col w-[340px] glass border border-white/10 rounded-3xl shadow-2xl shadow-black/40 mb-4 overflow-hidden" style="display:none;height:480px">
+    <!-- Header -->
+    <div class="flex items-center gap-3 px-4 py-3.5 bg-gradient-to-r from-brand-700 to-brand-600 flex-shrink-0">
+      <div class="relative">
+        <div class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
+          <i class="fas fa-user-md text-white text-sm"></i>
+        </div>
+        <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-green-400 border-2 border-brand-700"></span>
+      </div>
+      <div class="flex-1">
+        <div class="text-sm font-bold text-white">Smart Clinic Support</div>
+        <div class="text-[11px] text-brand-200 flex items-center gap-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-green-400 inline-block"></span> Online now
+        </div>
+      </div>
+      <button onclick="toggleChat()" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80 hover:text-white transition-colors">
+        <i class="fas fa-times text-sm"></i>
+      </button>
+    </div>
+
+    <!-- Messages -->
+    <div id="chatMessages" class="flex-1 overflow-y-auto p-4 chat-panel-body flex flex-col gap-1">
+      <!-- Welcome message -->
+      <div class="flex items-end gap-2 mb-1">
+        <div class="w-7 h-7 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center flex-shrink-0">
+          <i class="fas fa-user-md text-white text-xs"></i>
+        </div>
+        <div class="msg-in px-4 py-2.5">
+          <div class="text-sm leading-relaxed">👋 Welcome! How can we help you today?</div>
+          <div class="text-[10px] text-slate-600 mt-1">Just now</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="flex items-center gap-2 px-3 py-3 chat-input-bar flex-shrink-0">
+      <input id="chatInput" type="text" placeholder="Type a message…"
+        class="flex-1 px-4 py-2.5 rounded-2xl chat-input-field text-sm text-white placeholder-slate-500"
+        data-i18n-placeholder="chat_placeholder"
+        onkeydown="if(event.key==='Enter')sendChatMessage()"/>
+      <button onclick="sendChatMessage()"
+        class="w-10 h-10 rounded-2xl chat-send-btn text-white flex items-center justify-center flex-shrink-0">
+        <i class="fas fa-paper-plane text-sm"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Chat Button -->
+  <button id="chatToggleBtn" onclick="toggleChat()"
+    class="w-14 h-14 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-white shadow-xl shadow-brand-600/30 flex items-center justify-center transition-all hover:scale-110 relative">
+    <i id="chatBtnIcon" class="fas fa-comments text-xl"></i>
+    <span id="chatBadge" class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center animate-pulse">1</span>
+  </button>
+</div>
+
+<!-- ===================== LOGIN MODAL ===================== -->
+<div id="loginModal" class="modal-overlay hidden fixed inset-0 z-[100] items-center justify-center bg-black/60 backdrop-blur-sm">
+  <div class="modal-box glass border border-white/10 rounded-3xl p-8 w-full max-w-md mx-4 transform scale-95 opacity-0 transition-all duration-300">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h3 class="text-xl font-bold text-white" data-i18n="login_title">Welcome Back</h3>
+        <p class="text-sm text-slate-400 mt-1" data-i18n="login_sub">Sign in to your Smart Clinic Pro account</p>
+      </div>
+      <button onclick="closeModal('loginModal')" class="w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center text-slate-400 hover:text-white transition-colors"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div id="loginError" class="hidden mb-4 p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs">
+      <i class="fas fa-exclamation-circle mr-1"></i>
+      <span id="loginErrorMsg"></span>
+    </div>
+
+    <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+      <div>
+        <label class="block text-sm text-slate-300 mb-1.5" data-i18n="form_email">Email Address</label>
+        <input id="loginEmail" type="email" required class="w-full px-4 py-3 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+      </div>
+      <div>
+        <label class="block text-sm text-slate-300 mb-1.5" data-i18n="form_password">Password</label>
+        <div class="relative">
+          <input id="loginPass" type="password" required class="w-full px-4 py-3 pr-10 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+          <button type="button" onclick="togglePass('loginPass')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"><i class="fas fa-eye text-xs"></i></button>
+        </div>
+      </div>
+      <div class="flex items-center justify-between">
+        <label class="flex items-center gap-2 text-sm text-slate-400">
+          <input type="checkbox" class="rounded bg-dark-800 border-white/20"/>
+          <span data-i18n="form_remember">Remember me</span>
+        </label>
+        <button type="button" onclick="closeModal('loginModal');openModal('forgotPassModal')" class="text-sm text-brand-400 hover:text-brand-300" data-i18n="form_forgot">Forgot password?</button>
+      </div>
+      <button id="loginSubmitBtn" type="submit" class="w-full py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold transition-all">
+        <i class="fas fa-sign-in-alt mr-2"></i><span data-i18n="btn_login">Sign In</span>
+      </button>
+    </form>
+
+    <p class="text-center text-sm text-slate-400 mt-6">
+      <span data-i18n="login_no_acc">Don't have an account?</span>
+      <button onclick="closeModal('loginModal');openModal('signupModal')" class="text-brand-400 hover:text-brand-300 font-medium" data-i18n="btn_signup">Sign Up</button>
+    </p>
+  </div>
+</div>
+
+<!-- ===================== SIGNUP MODAL ===================== -->
+<div id="signupModal" class="modal-overlay hidden fixed inset-0 z-[100] items-center justify-center bg-black/60 backdrop-blur-sm">
+  <div class="modal-box glass border border-white/10 rounded-3xl p-8 w-full max-w-md mx-4 transform scale-95 opacity-0 transition-all duration-300">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h3 class="text-xl font-bold text-white" data-i18n="signup_title">Create Your Account</h3>
+        <p class="text-sm text-slate-400 mt-1" data-i18n="signup_sub">Join Smart Clinic Pro today</p>
+      </div>
+      <button onclick="closeModal('signupModal')" class="w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center text-slate-400 hover:text-white transition-colors"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div id="signupError" class="hidden mb-4 p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs">
+      <i class="fas fa-exclamation-circle mr-1"></i>
+      <span id="signupErrorMsg"></span>
+    </div>
+
+    <!-- Step Indicator -->
+    <div class="flex items-center gap-3 mb-6">
+      <div id="su-step1-dot" class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold bg-brand-600 text-white">1</div>
+      <div class="flex-1 h-0.5 bg-white/10 rounded"></div>
+      <div id="su-step2-dot" class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold bg-white/10 text-slate-500">2</div>
+    </div>
+    <p id="su-step-label" class="text-xs text-slate-500 mb-4 text-center">Your details</p>
+
+    <!-- Step 1: Details -->
+    <form id="signupStep1Form" onsubmit="signupSendOtp(event)" class="space-y-4">
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-sm text-slate-300 mb-1.5" data-i18n="form_first_name">First Name</label>
+          <input id="suFirstName" type="text" required class="w-full px-3 py-2.5 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+        </div>
+        <div>
+          <label class="block text-sm text-slate-300 mb-1.5" data-i18n="form_last_name">Last Name</label>
+          <input id="suLastName" type="text" required class="w-full px-3 py-2.5 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+        </div>
+      </div>
+      <div>
+        <label class="block text-sm text-slate-300 mb-1.5" data-i18n="form_email">Email Address</label>
+        <input id="suEmail" type="email" required class="w-full px-3 py-2.5 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+      </div>
+      <div>
+        <label class="block text-sm text-slate-300 mb-1.5" data-i18n="form_password">Password</label>
+        <div class="relative">
+          <input id="suPass" type="password" required minlength="6" class="w-full px-3 py-2.5 pr-10 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+          <button type="button" onclick="togglePass('suPass')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"><i class="fas fa-eye text-xs"></i></button>
+        </div>
+      </div>
+      <label class="flex items-start gap-2 text-xs text-slate-400">
+        <input id="suAgree" type="checkbox" required class="mt-0.5 rounded bg-dark-800 border-white/20"/>
+        <span data-i18n="form_agree">I agree to the Terms of Service and Privacy Policy. An email verification will be sent to confirm your account.</span>
+      </label>
+      <button id="suSendOtpBtn" type="submit" class="w-full py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold transition-all">
+        <i class="fas fa-user-plus mr-2"></i>Create Account
+      </button>
+    </form>
+
+    <!-- Step 2: Verify OTP + Set Password -->
+    <form id="signupStep2Form" class="hidden space-y-4" onsubmit="signupVerifyOtp(event)">
+      <div class="bg-brand-500/10 border border-brand-500/30 rounded-xl px-4 py-3">
+        <p class="text-xs text-brand-300">Code sent to <strong id="suEmailDisplay"></strong></p>
+        <button type="button" onclick="resetSignupStep()" class="text-[11px] text-slate-500 hover:text-brand-300 transition-colors mt-0.5">← Use different email</button>
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wider">4-Digit Code from Email</label>
+        <input type="text" id="suOtp" required="" maxlength="6" placeholder="XXXX" class="w-full bg-white/5 border border-white/10 focus:border-brand-500/60 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 outline-none transition-all tracking-[0.5em] text-center text-lg font-bold"/>
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wider">Set Password <span class="normal-case font-normal text-slate-500">(min. 6 characters)</span></label>
+        <div class="relative">
+          <input type="password" id="suPass" required="" minlength="6" placeholder="••••••••" class="w-full bg-white/5 border border-white/10 focus:border-brand-500/60 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 outline-none transition-all pr-11"/>
+          <button type="button" onclick="togglePass('suPass')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white"><i class="fas fa-eye text-sm"></i></button>
+        </div>
+      </div>
+      <button type="submit" id="suVerifyBtn" class="w-full py-3 bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-white font-semibold rounded-xl transition-all glow-teal flex items-center justify-center gap-2">
+        <i class="fas fa-user-plus"></i> Create Account
+      </button>
+    </form>
+
+    <p class="text-center text-sm text-slate-400 mt-6">
+      <span data-i18n="signup_has_acc">Already have an account?</span>
+      <button onclick="closeModal('signupModal');openModal('loginModal')" class="text-brand-400 hover:text-brand-300 font-medium" data-i18n="btn_login">Sign In</button>
+    </p>
+  </div>
+</div>
+
+<!-- ===================== FORGOT PASSWORD MODAL ===================== -->
+<div id="forgotPassModal" class="modal-overlay hidden fixed inset-0 z-[100] items-center justify-center bg-black/60 backdrop-blur-sm">
+  <div class="modal-box glass border border-white/10 rounded-3xl p-8 w-full max-w-md mx-4 transform scale-95 opacity-0 transition-all duration-300">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h3 class="text-xl font-bold text-white">Reset Password</h3>
+        <p class="text-sm text-slate-400 mt-1">We'll send a verification code to your email</p>
+      </div>
+      <button onclick="closeModal('forgotPassModal')" class="w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center text-slate-400 hover:text-white transition-colors"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div id="fpError" class="hidden mb-4 p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs">
+      <i class="fas fa-exclamation-circle mr-1"></i>
+      <span id="fpErrorMsg"></span>
+    </div>
+
+    <!-- Step Indicator -->
+    <div class="flex items-center gap-3 mb-6">
+      <div id="fp-step1-dot" class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold bg-brand-600 text-white">1</div>
+      <div class="flex-1 h-0.5 bg-white/10 rounded"></div>
+      <div id="fp-step2-dot" class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold bg-white/10 text-slate-500">2</div>
+    </div>
+    <p id="fp-step-label" class="text-xs text-slate-500 mb-4 text-center">Enter your email</p>
+
+    <!-- Step 1 -->
+    <form id="fpStep1Form" onsubmit="fpSendCode(event)" class="space-y-4">
+      <div>
+        <label class="block text-sm text-slate-300 mb-1.5">Email Address</label>
+        <input id="fpEmail" type="email" required class="w-full px-4 py-3 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+      </div>
+      <button id="fpSendBtn" type="submit" class="w-full py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold transition-all">
+        <i class="fas fa-paper-plane mr-2"></i>Send Verification Code
+      </button>
+    </form>
+
+    <!-- Step 2 -->
+    <form id="fpStep2Form" class="hidden space-y-4" onsubmit="fpVerifyAndReset(event)">
+      <div class="text-center">
+        <p class="text-sm text-slate-300">Code sent to</p>
+        <p id="fpEmailDisplay" class="text-sm font-semibold text-brand-400 mt-1"></p>
+      </div>
+      <div>
+        <label class="block text-sm text-slate-300 mb-1.5">Verification Code</label>
+        <input id="fpCode" type="text" required class="w-full px-4 py-3 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white text-center tracking-widest focus:outline-none focus:border-brand-500/50"/>
+      </div>
+      <div>
+        <label class="block text-sm text-slate-300 mb-1.5">New Password</label>
+        <input id="fpNewPass" type="password" required minlength="6" class="w-full px-4 py-3 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+      </div>
+      <button id="fpResetBtn" type="submit" class="w-full py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold transition-all">
+        <i class="fas fa-lock mr-2"></i>Reset Password
+      </button>
+      <button type="button" onclick="resetForgotStep()" class="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-slate-300 font-medium hover:bg-white/10 transition-all">
+        <i class="fas fa-arrow-left mr-2"></i>Back
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== PATIENT DASHBOARD MODAL ===================== -->
+<div id="patientDashboard" class="modal-overlay hidden fixed inset-0 z-[100] items-center justify-center bg-black/60 backdrop-blur-sm">
+  <div class="modal-box glass border border-white/10 rounded-3xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto transform scale-95 opacity-0 transition-all duration-300">
+    <div class="sticky top-0 bg-dark-900/95 backdrop-blur-sm border-b border-white/5 p-6 flex items-center justify-between">
+      <div>
+        <h3 class="text-lg font-bold text-white">Patient Dashboard</h3>
+        <p id="patientDashName" class="text-sm text-slate-400">Patient</p>
+        <p id="patientDashEmail" class="text-xs text-brand-400"></p>
+      </div>
+      <button onclick="closeModal('patientDashboard')" class="w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center text-slate-400 hover:text-white transition-colors"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div class="p-6">
+      <!-- Tabs -->
+      <div class="flex gap-2 mb-6">
+        <button id="tab-overview" onclick="switchPatientTab('overview')" class="px-4 py-2 rounded-full text-xs font-medium bg-brand-600 text-white shadow">Overview</button>
+        <button id="tab-appointments" onclick="switchPatientTab('appointments')" class="px-4 py-2 rounded-full text-xs font-medium text-slate-400">My Appointments</button>
+        <button id="tab-chat" onclick="switchPatientTab('chat')" class="px-4 py-2 rounded-full text-xs font-medium text-slate-400">Messages</button>
+      </div>
+
+      <!-- Overview Tab -->
+      <div id="patientTab-overview">
+        <div class="grid grid-cols-3 gap-4 mb-6">
+          <div class="glass border border-white/8 rounded-xl p-4 text-center">
+            <div id="patientTotalAppts" class="text-xl font-bold text-white">0</div>
+            <div class="text-xs text-slate-400 mt-1">Total</div>
+          </div>
+          <div class="glass border border-white/8 rounded-xl p-4 text-center">
+            <div id="patientApprovedAppts" class="text-xl font-bold text-green-400">0</div>
+            <div class="text-xs text-slate-400 mt-1">Approved</div>
+          </div>
+          <div class="glass border border-white/8 rounded-xl p-4 text-center">
+            <div id="patientPendingAppts" class="text-xl font-bold text-gold-400">0</div>
+            <div class="text-xs text-slate-400 mt-1">Pending</div>
+          </div>
+        </div>
+
+        <!-- Profile -->
+        <div class="glass border border-white/8 rounded-xl p-5 mb-4">
+          <div id="profileViewMode">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="text-sm font-semibold text-white">My Profile</h4>
+              <button id="editProfileToggleBtn" onclick="toggleProfileEdit()" class="text-xs text-brand-400 hover:text-brand-300"><i class="fas fa-pen mr-1"></i>Edit</button>
+            </div>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between"><span class="text-slate-400">Name</span><span id="profileViewName" class="text-white">—</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">Email</span><span id="profileViewEmail" class="text-white">—</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">Phone</span><span id="profileViewPhone" class="text-white">—</span></div>
+            </div>
+          </div>
+          <form id="profileEditMode" class="hidden space-y-3" onsubmit="saveProfile(event)">
+            <div class="grid grid-cols-2 gap-3">
+              <input id="profileFirstName" type="text" placeholder="First Name" class="px-3 py-2 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+              <input id="profileLastName" type="text" placeholder="Last Name" class="px-3 py-2 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+            </div>
+            <input id="profilePhone" type="tel" placeholder="Phone" class="w-full px-3 py-2 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+            <input id="profileNewPass" type="password" placeholder="New Password (optional)" class="w-full px-3 py-2 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+            <button id="saveProfileBtn" type="submit" class="w-full py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-sm font-semibold transition-colors">Save</button>
+          </form>
+        </div>
+
+        <button onclick="handleLogout()" class="w-full py-2.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm font-medium hover:bg-red-500/20 transition-colors">
+          <i class="fas fa-sign-out-alt mr-1"></i>Sign Out
+        </button>
+      </div>
+
+      <!-- Appointments Tab -->
+      <div id="patientTab-appointments" class="hidden">
+        <div id="myAppointmentsList"></div>
+      </div>
+
+      <!-- Chat Tab -->
+      <div id="patientTab-chat" class="hidden">
+        <div class="glass border border-white/8 rounded-2xl overflow-hidden">
+          <!-- Chat header -->
+          <div class="flex items-center gap-3 px-4 py-3 bg-dark-800/50 border-b border-white/8">
+            <div class="relative">
+              <div class="w-9 h-9 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center">
+                <i class="fas fa-user-md text-white text-sm"></i>
+              </div>
+              <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-green-400 border-2 border-dark-900"></span>
+            </div>
+            <div>
+              <p class="text-sm font-semibold text-white">Your Doctor</p>
+              <p class="text-[11px] text-green-400">Online · Smart Clinic Pro</p>
+            </div>
+          </div>
+          <!-- Messages -->
+          <div id="patientChatMessages" class="h-72 overflow-y-auto p-4 chat-panel-body flex flex-col gap-1"></div>
+          <!-- Input -->
+          <div class="flex items-center gap-2 px-3 py-3 chat-input-bar">
+            <input id="patientChatInput" type="text" placeholder="Type your message…"
+              class="flex-1 px-4 py-2.5 rounded-2xl chat-input-field text-sm text-white placeholder-slate-500"
+              onkeydown="if(event.key==='Enter')sendPatientChat()"/>
+            <button onclick="sendPatientChat()"
+              class="w-10 h-10 rounded-2xl chat-send-btn text-white flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-paper-plane text-sm"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== DOCTOR DASHBOARD MODAL ===================== -->
+<div id="doctorDashboard" class="modal-overlay hidden fixed inset-0 z-[100] items-center justify-center bg-black/60 backdrop-blur-sm">
+  <div class="modal-box glass border border-white/10 rounded-3xl w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto transform scale-95 opacity-0 transition-all duration-300">
+    <div class="sticky top-0 bg-dark-900/95 backdrop-blur-sm border-b border-white/5 p-6 flex items-center justify-between">
+      <div>
+        <h3 class="text-lg font-bold text-white">Doctor Dashboard</h3>
+        <p id="docDashName" class="text-sm text-slate-400">Doctor</p>
+        <p id="docDashSpecialty" class="text-xs text-slate-500">Doctor Dashboard · Specialist</p>
+      </div>
+      <button onclick="closeModal('doctorDashboard')" class="w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center text-slate-400 hover:text-white transition-colors"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div class="p-6">
+      <!-- Improved Stats -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+        <div class="glass border border-white/8 rounded-xl p-3 text-center">
+          <div id="docStatToday" class="text-lg font-bold text-brand-400">0</div>
+          <div class="text-[10px] text-slate-400 mt-0.5">Today</div>
+        </div>
+        <div class="glass border border-white/8 rounded-xl p-3 text-center">
+          <div id="docStatPending" class="text-lg font-bold text-gold-400">0</div>
+          <div class="text-[10px] text-slate-400 mt-0.5">Pending</div>
+        </div>
+        <div class="glass border border-white/8 rounded-xl p-3 text-center">
+          <div id="docStatApproved" class="text-lg font-bold text-green-400">0</div>
+          <div class="text-[10px] text-slate-400 mt-0.5">Approved</div>
+        </div>
+        <div class="glass border border-white/8 rounded-xl p-3 text-center">
+          <div id="docStatPostponed" class="text-lg font-bold text-blue-400">0</div>
+          <div class="text-[10px] text-slate-400 mt-0.5">Postponed</div>
+        </div>
+        <div class="glass border border-white/8 rounded-xl p-3 text-center">
+          <div id="docStatCancelled" class="text-lg font-bold text-red-400">0</div>
+          <div class="text-[10px] text-slate-400 mt-0.5">Cancelled</div>
+        </div>
+        <div class="glass border border-white/8 rounded-xl p-3 text-center">
+          <div id="docStatTotal" class="text-lg font-bold text-white">0</div>
+          <div class="text-[10px] text-slate-400 mt-0.5">Total</div>
+        </div>
+      </div>
+
+      <!-- Search + Filters -->
+      <div class="flex flex-col sm:flex-row gap-3 mb-4">
+        <div class="relative flex-1">
+          <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+          <input id="docSearchInput" type="text" oninput="docSearchPatients(this.value)" placeholder="Search by patient name..." class="w-full pl-8 pr-3 py-2 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-500/50 transition-colors"/>
+        </div>
+        <select id="docDateFilter" onchange="docSetDateFilter(this.value)" class="px-3 py-2 rounded-xl bg-dark-800/50 border border-white/10 text-xs text-white focus:outline-none">
+          <option value="all">All Dates</option>
+          <option value="today">Today</option>
+          <option value="week">This Week</option>
+          <option value="month">This Month</option>
+        </select>
+      </div>
+
+      <!-- Status & Appointment Tabs -->
+      <div class="flex flex-wrap gap-2 mb-4">
+        <button id="docFilter-pending" onclick="docSetFilter('pending')" class="doc-filter-tab px-3 py-1.5 rounded-full text-xs font-medium bg-brand-600 text-white transition-all">Pending</button>
+        <button id="docFilter-approved" onclick="docSetFilter('approved')" class="doc-filter-tab px-3 py-1.5 rounded-full text-xs font-medium text-slate-400 hover:bg-white/5 transition-all">Approved</button>
+        <button id="docFilter-postponed" onclick="docSetFilter('postponed')" class="doc-filter-tab px-3 py-1.5 rounded-full text-xs font-medium text-slate-400 hover:bg-white/5 transition-all">Postponed</button>
+        <button id="docFilter-cancelled" onclick="docSetFilter('cancelled')" class="doc-filter-tab px-3 py-1.5 rounded-full text-xs font-medium text-slate-400 hover:bg-white/5 transition-all">Cancelled</button>
+        <button id="docFilter-all" onclick="docSetFilter('all')" class="doc-filter-tab px-3 py-1.5 rounded-full text-xs font-medium text-slate-400 hover:bg-white/5 transition-all">All</button>
+      </div>
+
+      <!-- Appointments -->
+      <div id="pendingAppts" class="space-y-3 mb-6"></div>
+
+      <!-- Logout -->
+      <button onclick="handleLogout()" class="w-full py-2.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm font-medium hover:bg-red-500/20 transition-colors">
+        <i class="fas fa-sign-out-alt mr-1"></i>Sign Out
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== PATIENT QUICK VIEW MODAL ===================== -->
+<div id="patientQuickViewModal" class="modal-overlay hidden fixed inset-0 z-[110] items-center justify-center bg-black/60 backdrop-blur-sm">
+  <div class="modal-box glass border border-white/10 rounded-3xl w-full max-w-md mx-4 max-h-[80vh] overflow-y-auto transform scale-95 opacity-0 transition-all duration-300">
+    <div class="sticky top-0 bg-dark-900/95 backdrop-blur-sm border-b border-white/5 p-5 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div id="pvAvatar" class="w-10 h-10 rounded-full bg-brand-500/20 flex items-center justify-center text-brand-400 font-bold text-lg">P</div>
+        <div>
+          <h3 id="pvPatientName" class="text-base font-bold text-white">Patient</h3>
+          <p id="pvPatientEmail" class="text-xs text-slate-400">—</p>
+        </div>
+      </div>
+      <button onclick="closeModal('patientQuickViewModal')" class="w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center text-slate-400 hover:text-white transition-colors"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="p-5 space-y-4">
+      <div class="grid grid-cols-2 gap-3 text-sm">
+        <div class="glass border border-white/8 rounded-xl p-3">
+          <span class="text-[10px] text-slate-500 uppercase tracking-wider">Phone</span>
+          <p id="pvPhone" class="text-white font-medium mt-0.5">—</p>
+        </div>
+        <div class="glass border border-white/8 rounded-xl p-3">
+          <span class="text-[10px] text-slate-500 uppercase tracking-wider">Gender</span>
+          <p id="pvGender" class="text-white font-medium mt-0.5 capitalize">—</p>
+        </div>
+        <div class="glass border border-white/8 rounded-xl p-3">
+          <span class="text-[10px] text-slate-500 uppercase tracking-wider">Age</span>
+          <p id="pvAge" class="text-white font-medium mt-0.5">—</p>
+        </div>
+        <div class="glass border border-white/8 rounded-xl p-3">
+          <span class="text-[10px] text-slate-500 uppercase tracking-wider">Specialty</span>
+          <p id="pvSpecialty" class="text-white font-medium mt-0.5 capitalize">—</p>
+        </div>
+      </div>
+      <div id="pvDateBox" class="rounded-xl p-3 border">
+        <span class="text-[10px] text-slate-500 uppercase tracking-wider flex items-center gap-1">
+          <i class="fas fa-calendar-check text-[9px]"></i> Preferred Appointment Date
+        </span>
+        <p id="pvDate" class="font-semibold mt-1">—</p>
+      </div>
+      <div class="grid grid-cols-2 gap-3 text-sm">
+        <div class="glass border border-white/8 rounded-xl p-3">
+          <span class="text-[10px] text-slate-500 uppercase tracking-wider">Status</span>
+          <p id="pvStatus" class="text-white font-medium mt-0.5">—</p>
+        </div>
+        <div class="glass border border-white/8 rounded-xl p-3">
+          <span class="text-[10px] text-slate-500 uppercase tracking-wider">Payment</span>
+          <p id="pvPayment" class="text-white font-medium mt-0.5 capitalize">—</p>
+        </div>
+      </div>
+      <div class="glass border border-white/8 rounded-xl p-3">
+        <span class="text-[10px] text-slate-500 uppercase tracking-wider">Notes / Symptoms</span>
+        <p id="pvNotes" class="text-sm text-slate-300 mt-0.5 leading-relaxed">—</p>
+      </div>
+      <div id="pvActions" class="flex gap-2"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CONFIRM ACTION MODAL ===================== -->
+<div id="confirmActionModal" class="modal-overlay hidden fixed inset-0 z-[120] items-center justify-center bg-black/70 backdrop-blur-sm">
+  <div class="modal-box glass border border-white/10 rounded-3xl w-full max-w-sm mx-4 p-6 text-center transform scale-95 opacity-0 transition-all duration-300">
+    <div id="confirmIcon" class="w-14 h-14 rounded-full mx-auto mb-4 flex items-center justify-center bg-gold-500/20">
+      <i id="confirmIconEl" class="fas fa-exclamation-triangle text-gold-400 text-2xl"></i>
+    </div>
+    <h3 id="confirmTitle" class="text-lg font-bold text-white mb-2">Confirm Action</h3>
+    <p id="confirmMsg" class="text-sm text-slate-400 mb-6">Are you sure you want to proceed?</p>
+    <div class="flex gap-3">
+      <button id="confirmCancelBtn" onclick="closeModal('confirmActionModal')" class="flex-1 py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 text-sm font-medium hover:bg-white/10 transition-colors">Cancel</button>
+      <button id="confirmProceedBtn" class="flex-1 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-sm font-semibold transition-colors">Proceed</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ADMIN DASHBOARD MODAL ===================== -->
+<div id="adminDashboard" class="modal-overlay hidden fixed inset-0 z-[100] items-center justify-center bg-black/60 backdrop-blur-sm">
+  <div class="modal-box glass border border-white/10 rounded-3xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto transform scale-95 opacity-0 transition-all duration-300">
+    <div class="sticky top-0 bg-dark-900/95 backdrop-blur-sm border-b border-white/5 p-6 flex items-center justify-between">
+      <div>
+        <h3 class="text-lg font-bold text-white">Admin Dashboard</h3>
+        <p class="text-xs text-slate-500">Manage appointments, doctors, patients & analytics</p>
+      </div>
+      <button onclick="closeModal('adminDashboard')" class="w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center text-slate-400 hover:text-white transition-colors"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div class="p-6">
+      <!-- Improved Stats -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 mb-6">
+        <div class="glass border border-white/8 rounded-xl p-2.5 text-center">
+          <div id="adminStatTotal" class="text-sm font-bold text-white">0</div>
+          <div class="text-[9px] text-slate-400 mt-0.5">Total</div>
+        </div>
+        <div class="glass border border-white/8 rounded-xl p-2.5 text-center">
+          <div id="adminStatPending" class="text-sm font-bold text-gold-400">0</div>
+          <div class="text-[9px] text-slate-400 mt-0.5">Pending</div>
+        </div>
+        <div class="glass border border-white/8 rounded-xl p-2.5 text-center">
+          <div id="adminStatApproved" class="text-sm font-bold text-green-400">0</div>
+          <div class="text-[9px] text-slate-400 mt-0.5">Approved</div>
+        </div>
+        <div class="glass border border-white/8 rounded-xl p-2.5 text-center">
+          <div id="adminStatCancelled" class="text-sm font-bold text-red-400">0</div>
+          <div class="text-[9px] text-slate-400 mt-0.5">Cancelled</div>
+        </div>
+        <div class="glass border border-white/8 rounded-xl p-2.5 text-center">
+          <div id="adminStatPostponed" class="text-sm font-bold text-blue-400">0</div>
+          <div class="text-[9px] text-slate-400 mt-0.5">Postponed</div>
+        </div>
+        <div class="glass border border-white/8 rounded-xl p-2.5 text-center">
+          <div id="adminStatToday" class="text-sm font-bold text-brand-400">0</div>
+          <div class="text-[9px] text-slate-400 mt-0.5">Today</div>
+        </div>
+        <div class="glass border border-white/8 rounded-xl p-2.5 text-center">
+          <div id="adminStatWeek" class="text-sm font-bold text-purple-400">0</div>
+          <div class="text-[9px] text-slate-400 mt-0.5">This Week</div>
+        </div>
+        <div class="glass border border-white/8 rounded-xl p-2.5 text-center">
+          <div id="adminStatRevenue" class="text-sm font-bold text-cyan-400">$0</div>
+          <div class="text-[9px] text-slate-400 mt-0.5">Revenue</div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="flex gap-2 mb-4 flex-wrap">
+        <button id="adminTab-appointments" onclick="adminSwitchTab('appointments')" class="px-3 py-1.5 rounded-full text-xs font-medium bg-red-600 text-white">Appointments</button>
+        <button id="adminTab-doctors" onclick="adminSwitchTab('doctors')" class="px-3 py-1.5 rounded-full text-xs font-medium text-slate-400">Doctors</button>
+        <button id="adminTab-patients" onclick="adminSwitchTab('patients')" class="px-3 py-1.5 rounded-full text-xs font-medium text-slate-400">Patients</button>
+        <button id="adminTab-analytics" onclick="adminSwitchTab('analytics')" class="px-3 py-1.5 rounded-full text-xs font-medium text-slate-400">Analytics</button>
+        <button id="adminTab-addDoctor" onclick="adminSwitchTab('addDoctor')" class="px-3 py-1.5 rounded-full text-xs font-medium text-slate-400">+ Add Doctor</button>
+      </div>
+
+      <!-- Appointments Pane -->
+      <div id="adminPane-appointments" class="flex flex-col">
+        <div class="flex flex-wrap items-center gap-3 mb-4">
+          <select id="adminStatusFilter" onchange="loadAdminAppts()" class="px-3 py-2 rounded-xl bg-dark-800/50 border border-white/10 text-xs text-white focus:outline-none">
+            <option value="">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="postponed">Postponed</option>
+            <option value="cancelled">Cancelled</option>
+            <option value="completed">Completed</option>
+          </select>
+          <input id="adminSearchInput" type="text" oninput="adminSearchPatients(this.value)" placeholder="Search patient..." class="px-3 py-2 rounded-xl bg-dark-800/50 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500/50 w-36"/>
+          <select id="adminDateFilter" onchange="loadAdminAppts()" class="px-3 py-2 rounded-xl bg-dark-800/50 border border-white/10 text-xs text-white focus:outline-none">
+            <option value="all">All Dates</option>
+            <option value="today">Today</option>
+            <option value="week">This Week</option>
+            <option value="month">This Month</option>
+          </select>
+          <span id="adminApptCount" class="text-xs text-slate-500"></span>
+          <div id="adminDoctorTabs" class="flex gap-2 overflow-x-auto"></div>
+        </div>
+        <div id="adminApptsList"></div>
+      </div>
+
+      <!-- Doctors Pane -->
+      <div id="adminPane-doctors" class="hidden flex flex-col">
+        <div class="flex gap-2 mb-4">
+          <input id="adminDocSearch" type="text" oninput="adminSearchDoctors(this.value)" placeholder="Search doctors..." class="px-3 py-2 rounded-xl bg-dark-800/50 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500/50 w-48"/>
+        </div>
+        <div id="adminDoctorsList"></div>
+      </div>
+
+      <!-- Patients Pane -->
+      <div id="adminPane-patients" class="hidden flex flex-col">
+        <div class="flex gap-2 mb-4">
+          <input id="adminPatientSearch" type="text" oninput="adminSearchPatientsList(this.value)" placeholder="Search patients..." class="px-3 py-2 rounded-xl bg-dark-800/50 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500/50 w-48"/>
+        </div>
+        <div id="adminPatientsList" class="space-y-2">
+          <div class="text-center py-8 text-slate-500 text-sm"><i class="fas fa-users text-2xl block mb-2 text-slate-600"></i>Search to find patients</div>
+        </div>
+      </div>
+
+      <!-- Analytics Pane -->
+      <div id="adminPane-analytics" class="hidden flex flex-col">
+        <div class="grid sm:grid-cols-2 gap-4 mb-4">
+          <div class="glass border border-white/8 rounded-xl p-4">
+            <h4 class="text-sm font-semibold text-white mb-3"><i class="fas fa-chart-pie text-brand-400 mr-2"></i>Appointments by Status</h4>
+            <div id="analyticsStatusChart" class="space-y-2">
+              <div class="flex items-center gap-2 text-xs">
+                <span class="w-2 h-2 rounded-full bg-gold-400"></span><span class="text-slate-400 w-20">Pending</span>
+                <div class="flex-1 h-3 bg-white/5 rounded-full overflow-hidden"><div id="chartPending" class="h-full bg-gold-400 rounded-full" style="width:0%"></div></div>
+                <span id="chartPendingLabel" class="text-white w-8 text-right">0</span>
+              </div>
+              <div class="flex items-center gap-2 text-xs">
+                <span class="w-2 h-2 rounded-full bg-green-400"></span><span class="text-slate-400 w-20">Approved</span>
+                <div class="flex-1 h-3 bg-white/5 rounded-full overflow-hidden"><div id="chartApproved" class="h-full bg-green-400 rounded-full" style="width:0%"></div></div>
+                <span id="chartApprovedLabel" class="text-white w-8 text-right">0</span>
+              </div>
+              <div class="flex items-center gap-2 text-xs">
+                <span class="w-2 h-2 rounded-full bg-blue-400"></span><span class="text-slate-400 w-20">Postponed</span>
+                <div class="flex-1 h-3 bg-white/5 rounded-full overflow-hidden"><div id="chartPostponed" class="h-full bg-blue-400 rounded-full" style="width:0%"></div></div>
+                <span id="chartPostponedLabel" class="text-white w-8 text-right">0</span>
+              </div>
+              <div class="flex items-center gap-2 text-xs">
+                <span class="w-2 h-2 rounded-full bg-red-400"></span><span class="text-slate-400 w-20">Cancelled</span>
+                <div class="flex-1 h-3 bg-white/5 rounded-full overflow-hidden"><div id="chartCancelled" class="h-full bg-red-400 rounded-full" style="width:0%"></div></div>
+                <span id="chartCancelledLabel" class="text-white w-8 text-right">0</span>
+              </div>
+            </div>
+          </div>
+          <div class="glass border border-white/8 rounded-xl p-4">
+            <h4 class="text-sm font-semibold text-white mb-3"><i class="fas fa-credit-card text-gold-400 mr-2"></i>Revenue by Method</h4>
+            <div id="analyticsRevenueChart" class="space-y-2">
+              <div class="flex items-center gap-2 text-xs">
+                <span class="w-2 h-2 rounded-full bg-blue-400"></span><span class="text-slate-400 w-20">Visa/MC</span>
+                <div class="flex-1 h-3 bg-white/5 rounded-full overflow-hidden"><div id="revCard" class="h-full bg-blue-400 rounded-full" style="width:0%"></div></div>
+                <span id="revCardLabel" class="text-white w-12 text-right">$0</span>
+              </div>
+              <div class="flex items-center gap-2 text-xs">
+                <span class="w-2 h-2 rounded-full bg-green-400"></span><span class="text-slate-400 w-20">Cash</span>
+                <div class="flex-1 h-3 bg-white/5 rounded-full overflow-hidden"><div id="revCash" class="h-full bg-green-400 rounded-full" style="width:0%"></div></div>
+                <span id="revCashLabel" class="text-white w-12 text-right">$0</span>
+              </div>
+              <div class="flex items-center gap-2 text-xs">
+                <span class="w-2 h-2 rounded-full bg-slate-400"></span><span class="text-slate-400 w-20">Apple Pay</span>
+                <div class="flex-1 h-3 bg-white/5 rounded-full overflow-hidden"><div id="revApple" class="h-full bg-slate-400 rounded-full" style="width:0%"></div></div>
+                <span id="revAppleLabel" class="text-white w-12 text-right">$0</span>
+              </div>
+              <div class="flex items-center gap-2 text-xs">
+                <span class="w-2 h-2 rounded-full bg-green-600"></span><span class="text-slate-400 w-20">Mir</span>
+                <div class="flex-1 h-3 bg-white/5 rounded-full overflow-hidden"><div id="revMir" class="h-full bg-green-600 rounded-full" style="width:0%"></div></div>
+                <span id="revMirLabel" class="text-white w-12 text-right">$0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="glass border border-white/8 rounded-xl p-4">
+          <h4 class="text-sm font-semibold text-white mb-3"><i class="fas fa-clock text-purple-400 mr-2"></i>Recent Activity</h4>
+          <div id="adminActivityLog" class="space-y-1 text-xs max-h-48 overflow-y-auto">
+            <div class="text-center py-4 text-slate-500">Loading...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Doctor Pane -->
+      <div id="adminPane-addDoctor" class="hidden">
+        <div class="glass border border-white/8 rounded-xl p-5 max-w-lg">
+          <h4 class="text-sm font-semibold text-white mb-4">Add New Doctor</h4>
+          <form onsubmit="adminAddDoctor(event)" class="space-y-3">
+            <input id="newDocEmail" type="email" required placeholder="Email" class="w-full px-3 py-2 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+            <input id="newDocName" type="text" required placeholder="Full Name" class="w-full px-3 py-2 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+            <input id="newDocSpec" type="text" required placeholder="Specialty" class="w-full px-3 py-2 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+            <textarea id="newDocBio" rows="2" placeholder="Bio (optional)" class="w-full px-3 py-2 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50 resize-none"></textarea>
+            <div class="flex items-center gap-3">
+              <div id="newDocPhotoPreview" class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center"><i class="fas fa-user-md text-slate-600 text-lg" id="newDocPhotoIcon"></i></div>
+              <label class="cursor-pointer px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs text-slate-300 hover:bg-white/10 transition-colors">
+                <i class="fas fa-upload mr-1"></i> Photo
+                <input id="newDocPhoto" type="file" accept="image/*" onchange="previewDocPhoto('newDocPhoto','newDocPhotoPreview','newDocPhotoIcon')" class="hidden"/>
+              </label>
+            </div>
+            <div id="newDocPhotoName" class="text-[10px] text-slate-500">No file selected</div>
+            <div>
+              <label class="block text-xs text-slate-300 mb-1"><i class="fas fa-lock text-brand-400/60 mr-1"></i>Login Password <span class="text-red-400">*</span></label>
+              <div class="relative">
+                <input id="newDocPassword" type="password" required placeholder="Set doctor's login password" class="w-full px-3 py-2 pr-9 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+                <button type="button" onclick="togglePass('newDocPassword')" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"><i class="fas fa-eye text-xs"></i></button>
+              </div>
+            </div>
+            <div class="space-y-1.5">
+              <label class="flex items-center gap-2 text-xs text-slate-300"><input id="newDocViewOwn" type="checkbox" checked class="rounded bg-dark-800 border-white/20"/> View own only</label>
+              <label class="flex items-center gap-2 text-xs text-slate-300"><input id="newDocCanApprove" type="checkbox" checked class="rounded bg-dark-800 border-white/20"/> Can approve</label>
+              <label class="flex items-center gap-2 text-xs text-slate-300"><input id="newDocCanCancel" type="checkbox" checked class="rounded bg-dark-800 border-white/20"/> Can cancel</label>
+            </div>
+            <button type="submit" class="w-full py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white text-sm font-semibold transition-colors"><i class="fas fa-plus mr-1"></i>Add Doctor</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Logout -->
+      <button onclick="handleLogout()" class="w-full mt-4 py-2.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm font-medium hover:bg-red-500/20 transition-colors">
+        <i class="fas fa-sign-out-alt mr-1"></i>Sign Out
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ADMIN CHAT MODAL ===================== -->
+<div id="adminChatModal" class="modal-overlay hidden fixed inset-0 z-[110] items-center justify-center bg-black/60 backdrop-blur-sm">
+  <div class="modal-box glass border border-white/10 rounded-3xl w-full max-w-lg mx-4 overflow-hidden transform scale-95 opacity-0 transition-all duration-300" style="max-height:88vh;display:flex;flex-direction:column">
+    <!-- Header -->
+    <div class="flex items-center gap-3 px-5 py-4 border-b border-white/8 bg-dark-800/60 flex-shrink-0">
+      <div class="relative">
+        <div id="adminChatAvatar" class="w-10 h-10 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center text-white font-bold text-base">P</div>
+        <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-green-400 border-2 border-dark-900"></span>
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="text-sm font-bold text-white truncate" id="adminChatPatientName">Patient</div>
+        <div class="flex items-center gap-2 text-[11px] text-slate-400 flex-wrap">
+          <span id="adminChatPatientEmail" class="truncate">—</span>
+          <span id="adminChatPhone" class="flex items-center gap-1"><i class="fas fa-phone text-brand-400/60 text-[9px]"></i><span>No phone</span></span>
+        </div>
+        <div class="text-[10px] text-slate-600 mt-0.5" id="adminChatApptInfo"></div>
+      </div>
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <a id="adminChatEmailLink" href="#" class="w-8 h-8 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-400 hover:bg-brand-500/20 transition-colors" title="Send Email">
+          <i class="fas fa-envelope text-xs"></i>
+        </a>
+        <button onclick="closeModal('adminChatModal')" class="w-8 h-8 rounded-xl hover:bg-white/5 flex items-center justify-center text-slate-400 hover:text-white transition-colors">
+          <i class="fas fa-times text-sm"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div id="adminChatMessages" class="flex-1 overflow-y-auto p-5 chat-panel-body flex flex-col gap-1" style="min-height:260px;max-height:400px"></div>
+
+    <!-- Input -->
+    <div class="flex items-center gap-3 px-4 py-3 chat-input-bar flex-shrink-0">
+      <input id="adminChatInput" type="text" placeholder="Type a reply…"
+        class="flex-1 px-4 py-2.5 rounded-2xl chat-input-field text-sm text-white placeholder-slate-500"
+        onkeydown="if(event.key==='Enter')sendAdminChat()"/>
+      <button onclick="sendAdminChat()"
+        class="w-10 h-10 rounded-2xl chat-send-btn text-white flex items-center justify-center flex-shrink-0">
+        <i class="fas fa-paper-plane text-sm"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== DEMO PAYMENT MODAL ===================== -->
+<div id="demoPaymentModal" class="modal-overlay hidden fixed inset-0 z-[130] items-center justify-center bg-black/80 backdrop-blur-md">
+  <div class="modal-box w-full max-w-sm mx-4 transform scale-95 opacity-0 transition-all duration-300">
+
+    <!-- Stripe-like card -->
+    <div class="bg-white rounded-2xl overflow-hidden shadow-2xl">
+
+      <!-- Header -->
+      <div class="bg-[#635bff] px-6 py-5">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="14" fill="white" fill-opacity="0.2"/><path d="M8 14.5C8 11.46 10.46 9 13.5 9H20v5.5C20 17.54 17.54 20 14.5 20H8v-5.5z" fill="white" fill-opacity="0.6"/><circle cx="13.5" cy="14.5" r="3.5" fill="white"/></svg>
+            <span class="text-white font-bold text-sm">Smart Clinic Pro</span>
+          </div>
+          <button onclick="closeModal('demoPaymentModal')" class="text-white/60 hover:text-white transition-colors"><i class="fas fa-times"></i></button>
+        </div>
+        <div>
+          <p class="text-white/70 text-xs mb-0.5">Consultation Fee</p>
+          <p id="dpAmount" class="text-white text-3xl font-extrabold">$10.00</p>
+          <p id="dpDesc" class="text-white/60 text-xs mt-1">Appointment — Smart Clinic Pro</p>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="px-6 py-5">
+        <!-- Email -->
+        <div class="mb-4">
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Email</label>
+          <input id="dpEmail" type="email" placeholder="you@example.com"
+            class="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm text-gray-800 focus:outline-none focus:border-[#635bff] focus:ring-1 focus:ring-[#635bff] transition-all"/>
+        </div>
+
+        <!-- Card Number -->
+        <div class="mb-4">
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Card information</label>
+          <div class="border border-gray-200 rounded-lg overflow-hidden focus-within:border-[#635bff] focus-within:ring-1 focus-within:ring-[#635bff] transition-all">
+            <div class="flex items-center px-3 py-2.5 border-b border-gray-200">
+              <input id="dpCard" type="text" placeholder="1234 1234 1234 1234" maxlength="19"
+                oninput="formatCardNumber(this)"
+                class="flex-1 text-sm text-gray-800 focus:outline-none placeholder-gray-300"/>
+              <div class="flex gap-1 ml-2">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Visa.svg/200px-Visa.svg.png" alt="Visa" class="h-4 opacity-60"/>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/200px-Mastercard-logo.svg.png" alt="MC" class="h-4 opacity-60"/>
+              </div>
+            </div>
+            <div class="flex">
+              <input id="dpExpiry" type="text" placeholder="MM / YY" maxlength="7"
+                oninput="formatExpiry(this)"
+                class="flex-1 px-3 py-2.5 text-sm text-gray-800 focus:outline-none border-r border-gray-200 placeholder-gray-300"/>
+              <input id="dpCvc" type="text" placeholder="CVC" maxlength="4"
+                oninput="this.value=this.value.replace(/\D/g,'')"
+                class="w-24 px-3 py-2.5 text-sm text-gray-800 focus:outline-none placeholder-gray-300"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Name -->
+        <div class="mb-5">
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Name on card</label>
+          <input id="dpName" type="text" placeholder="Full name"
+            class="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm text-gray-800 focus:outline-none focus:border-[#635bff] focus:ring-1 focus:ring-[#635bff] transition-all"/>
+        </div>
+
+        <!-- Error -->
+        <div id="dpError" class="hidden mb-3 text-xs text-red-500 flex items-center gap-1.5">
+          <i class="fas fa-exclamation-circle"></i>
+          <span id="dpErrorMsg">Please check your card details.</span>
+        </div>
+
+        <!-- Pay button -->
+        <button id="dpPayBtn" onclick="submitDemoPayment()"
+          class="w-full py-3 rounded-lg bg-[#635bff] hover:bg-[#4f46e5] text-white text-sm font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/30">
+          <i class="fas fa-lock text-xs"></i>
+          <span id="dpPayBtnText">Pay $10.00</span>
+        </button>
+
+        <!-- Footer -->
+        <div class="flex items-center justify-center gap-1.5 mt-4">
+          <i class="fas fa-shield-alt text-gray-300 text-xs"></i>
+          <p class="text-[11px] text-gray-400">Powered by <span class="font-semibold text-gray-500">Stripe</span> · SSL Encrypted</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== PAYMENT SUCCESS MODAL ===================== -->
+<div id="paymentSuccessModal" class="modal-overlay hidden fixed inset-0 z-[100] items-center justify-center bg-black/60 backdrop-blur-sm">
+  <div class="modal-box glass border border-white/10 rounded-3xl p-8 w-full max-w-sm mx-4 text-center transform scale-95 opacity-0 transition-all duration-300">
+    <div class="w-20 h-20 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-5">
+      <i class="fas fa-check-circle text-green-400 text-4xl"></i>
+    </div>
+    <h3 class="text-xl font-extrabold text-white mb-2">Payment Successful!</h3>
+    <p class="text-sm text-slate-400 mb-1">Your consultation fee has been paid.</p>
+    <p class="text-xs text-slate-600 mb-6">Appointment <span id="psApptId" class="text-brand-400 font-mono font-semibold">#—</span> is now confirmed.</p>
+    <div class="glass border border-green-500/20 rounded-2xl px-4 py-3 mb-6 text-left space-y-1.5">
+      <div class="flex items-center gap-2 text-xs text-slate-400"><i class="fas fa-shield-alt text-green-400 w-4"></i>Payment secured by Stripe</div>
+      <div class="flex items-center gap-2 text-xs text-slate-400"><i class="fas fa-envelope text-brand-400 w-4"></i>Receipt sent to your email</div>
+      <div class="flex items-center gap-2 text-xs text-slate-400"><i class="fas fa-calendar-check text-brand-400 w-4"></i>Doctor will contact you shortly</div>
+    </div>
+    <button onclick="closeModal('paymentSuccessModal')" class="w-full py-3 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-white font-semibold transition-all">
+      <i class="fas fa-home mr-2"></i>Back to Home
+    </button>
+  </div>
+</div>
+
+<!-- ===================== BOOKING SUCCESS MODAL ===================== -->
+<div id="bookingSuccessModal" class="modal-overlay hidden fixed inset-0 z-[100] items-center justify-center bg-black/60 backdrop-blur-sm">
+  <div class="modal-box glass border border-white/10 rounded-3xl p-8 w-full max-w-md mx-4 text-center transform scale-95 opacity-0 transition-all duration-300">
+    <div class="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-4">
+      <i class="fas fa-check-circle text-green-400 text-3xl"></i>
+    </div>
+    <h3 class="text-xl font-bold text-white mb-2" data-i18n="success_title">Appointment Booked!</h3>
+    <p class="text-sm text-slate-400 leading-relaxed" data-i18n="success_desc">Your appointment has been submitted. You'll receive a confirmation email within 30 minutes once the doctor approves it.</p>
+    <button onclick="closeModal('bookingSuccessModal')" class="mt-6 px-6 py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold transition-all" data-i18n="btn_done">
+      <i class="fas fa-check mr-2"></i>Done
+    </button>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div id="toastContainer" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] space-y-2"></div>
+
+<!-- ===================== PATIENT DETAIL MODAL ===================== -->
+<div id="patientDetailModal" class="modal-overlay hidden fixed inset-0 z-[120] items-center justify-center bg-black/70 backdrop-blur-sm">
+  <div class="modal-box glass border border-white/10 rounded-3xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto transform scale-95 opacity-0 transition-all duration-300">
+
+    <!-- Header -->
+    <div class="px-6 py-5 border-b border-white/8 bg-dark-800/50 flex items-center gap-4">
+      <div id="pdAvatar" class="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-600 to-brand-700 flex items-center justify-center text-white font-black text-2xl flex-shrink-0 shadow-lg">P</div>
+      <div class="flex-1 min-w-0">
+        <h3 id="pdName" class="text-xl font-extrabold text-white truncate">Patient</h3>
+        <p class="flex items-center gap-1.5 text-sm text-slate-400 mt-0.5">
+          <i class="fas fa-envelope text-brand-400/60 text-xs"></i>
+          <span id="pdEmail" class="truncate">—</span>
+        </p>
+        <p class="flex items-center gap-1.5 text-xs text-slate-500 mt-0.5">
+          <i class="fas fa-phone text-brand-400/60 text-[10px]"></i>
+          <span id="pdPhone">—</span>
+          <span id="pdMeta" class="ml-2 text-slate-600">—</span>
+        </p>
+      </div>
+      <button onclick="closeModal('patientDetailModal')" class="w-8 h-8 rounded-xl hover:bg-white/5 flex items-center justify-center text-slate-400 hover:text-white transition-colors flex-shrink-0">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-4 gap-2 px-5 pt-5">
+      <div class="glass border border-white/8 rounded-2xl p-3 text-center">
+        <div id="pdStatTotal" class="text-xl font-bold text-white">0</div>
+        <div class="text-[10px] text-slate-500 mt-0.5">Total</div>
+      </div>
+      <div class="glass border border-white/8 rounded-2xl p-3 text-center">
+        <div id="pdStatApproved" class="text-xl font-bold text-green-400">0</div>
+        <div class="text-[10px] text-slate-500 mt-0.5">Approved</div>
+      </div>
+      <div class="glass border border-white/8 rounded-2xl p-3 text-center">
+        <div id="pdStatPending" class="text-xl font-bold text-gold-400">0</div>
+        <div class="text-[10px] text-slate-500 mt-0.5">Pending</div>
+      </div>
+      <div class="glass border border-white/8 rounded-2xl p-3 text-center">
+        <div id="pdStatCancelled" class="text-xl font-bold text-red-400">0</div>
+        <div class="text-[10px] text-slate-500 mt-0.5">Cancelled</div>
+      </div>
+    </div>
+
+    <!-- Appointments List -->
+    <div class="px-5 pt-4 pb-2">
+      <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+        <i class="fas fa-calendar-alt text-brand-400/60"></i>Appointment History
+      </h4>
+      <div id="pdAppointmentsList" class="space-y-2 max-h-72 overflow-y-auto pr-1"></div>
+    </div>
+
+    <!-- Actions -->
+    <div class="px-5 py-4 border-t border-white/8 mt-2">
+      <button id="pdDeleteBtn" onclick="" class="w-full py-2.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm font-semibold hover:bg-red-500/20 transition-colors">
+        <i class="fas fa-trash mr-2"></i>Delete Patient & All Appointments
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== APPOINTMENT DETAIL MODAL ===================== -->
+<div id="apptDetailModal" class="modal-overlay hidden fixed inset-0 z-[120] items-center justify-center bg-black/70 backdrop-blur-sm">
+  <div class="modal-box glass border border-white/10 rounded-3xl w-full max-w-md mx-4 max-h-[92vh] overflow-y-auto transform scale-95 opacity-0 transition-all duration-300">
+
+    <!-- Status Header -->
+    <div id="admHeader" class="px-6 py-5 border-b border-white/8 relative">
+      <div class="flex items-center justify-between mb-4">
+        <span id="admStatusBadge" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/15 border border-white/25 text-white text-xs font-bold tracking-wide">
+          <i class="fas fa-clock text-[10px]"></i>PENDING
+        </span>
+        <button onclick="closeModal('apptDetailModal')" class="w-8 h-8 rounded-xl hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <!-- Patient Identity -->
+      <div class="flex items-center gap-4">
+        <div id="admAvatar" class="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-black text-2xl flex-shrink-0 shadow-xl ring-2 ring-white/10">P</div>
+        <div class="min-w-0 flex-1">
+          <h3 id="admPatientName" class="text-xl font-extrabold text-white truncate mb-0.5">Patient</h3>
+          <p class="flex items-center gap-1.5 text-xs text-white/60 mb-0.5">
+            <i class="fas fa-envelope text-[9px]"></i>
+            <span id="admPatientEmail" class="truncate">—</span>
+          </p>
+          <p class="flex items-center gap-1.5 text-xs text-white/50">
+            <i class="fas fa-phone text-[9px]"></i>
+            <span id="admPhone">—</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="p-5 space-y-3">
+
+      <!-- Date (most prominent) -->
+      <div id="admDateBox" class="rounded-2xl p-4 text-center">
+        <div class="text-[10px] uppercase tracking-widest font-bold mb-2 flex items-center justify-center gap-1.5">
+          <i class="fas fa-calendar-check"></i>Preferred Appointment Date
+        </div>
+        <div id="admDate" class="text-lg font-extrabold text-white">—</div>
+      </div>
+
+      <!-- Info Grid -->
+      <div class="grid grid-cols-2 gap-2.5">
+        <div class="glass border border-white/8 rounded-2xl p-3.5">
+          <div class="text-[9px] text-slate-500 uppercase tracking-widest mb-1.5 flex items-center gap-1"><i class="fas fa-stethoscope text-brand-400/60"></i>Specialty</div>
+          <div id="admSpecialty" class="text-sm font-bold text-white capitalize">—</div>
+        </div>
+        <div class="glass border border-white/8 rounded-2xl p-3.5">
+          <div class="text-[9px] text-slate-500 uppercase tracking-widest mb-1.5 flex items-center gap-1"><i class="fas fa-user-md text-brand-400/60"></i>Doctor</div>
+          <div id="admDoctor" class="text-sm font-bold text-white">—</div>
+        </div>
+        <div class="glass border border-white/8 rounded-2xl p-3.5">
+          <div class="text-[9px] text-slate-500 uppercase tracking-widest mb-1.5 flex items-center gap-1"><i class="fas fa-birthday-cake text-brand-400/60"></i>Age</div>
+          <div id="admAge" class="text-sm font-bold text-white">—</div>
+        </div>
+        <div class="glass border border-white/8 rounded-2xl p-3.5">
+          <div class="text-[9px] text-slate-500 uppercase tracking-widest mb-1.5 flex items-center gap-1"><i class="fas fa-venus-mars text-brand-400/60"></i>Gender</div>
+          <div id="admGender" class="text-sm font-bold text-white capitalize">—</div>
+        </div>
+      </div>
+
+      <!-- Payment -->
+      <div class="glass border border-white/8 rounded-2xl p-3.5 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-brand-500/10 flex items-center justify-center flex-shrink-0">
+          <i class="fas fa-credit-card text-brand-400"></i>
+        </div>
+        <div>
+          <div class="text-[9px] text-slate-500 uppercase tracking-widest">Payment</div>
+          <div id="admPayment" class="text-sm font-bold text-white mt-0.5">—</div>
+        </div>
+        <div id="admBookedAtBadge" class="ml-auto text-[10px] text-slate-600 text-right"></div>
+      </div>
+
+      <!-- Notes -->
+      <div id="admNotesBox" class="glass border border-white/8 rounded-2xl p-4 hidden">
+        <div class="text-[9px] text-slate-500 uppercase tracking-widest mb-2 flex items-center gap-1.5">
+          <i class="fas fa-comment-medical text-brand-400/60"></i>Notes / Symptoms
+        </div>
+        <p id="admNotes" class="text-sm text-slate-300 leading-relaxed">—</p>
+      </div>
+
+      <!-- Actions -->
+      <div id="admActions" class="flex flex-wrap gap-2 pt-1"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== EDIT DOCTOR MODAL ===================== -->
+<div id="editDoctorModal" class="modal-overlay hidden fixed inset-0 z-[120] items-center justify-center bg-black/70 backdrop-blur-sm">
+  <div class="modal-box glass border border-white/10 rounded-3xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto transform scale-95 opacity-0 transition-all duration-300">
+    <div class="sticky top-0 bg-dark-900/95 backdrop-blur-sm border-b border-white/5 p-5 flex items-center justify-between">
+      <div>
+        <h3 class="text-lg font-bold text-white"><i class="fas fa-user-edit text-brand-400 mr-2"></i>Edit Doctor</h3>
+        <p class="text-xs text-slate-500 mt-0.5">Update doctor information &amp; permissions</p>
+      </div>
+      <button onclick="closeModal('editDoctorModal')" class="w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center text-slate-400 hover:text-white transition-colors"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="p-5">
+      <form id="editDoctorForm" onsubmit="adminSaveEditDoctor(event)" class="space-y-4">
+        <input type="hidden" id="editDocId"/>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Full Name</label>
+          <input id="editDocName" type="text" required class="w-full px-3 py-2.5 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Email (read-only)</label>
+          <input id="editDocEmail" type="email" readonly class="w-full px-3 py-2.5 rounded-xl bg-dark-900/50 border border-white/5 text-sm text-slate-500 cursor-not-allowed"/>
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Specialty</label>
+          <input id="editDocSpec" type="text" required class="w-full px-3 py-2.5 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Bio</label>
+          <textarea id="editDocBio" rows="3" class="w-full px-3 py-2.5 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50 resize-none"></textarea>
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Update Photo (optional)</label>
+          <div class="flex items-center gap-3">
+            <div id="editDocPhotoPreview" class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center overflow-hidden flex-shrink-0">
+              <i class="fas fa-user-md text-slate-600 text-xl" id="editDocPhotoIcon"></i>
+            </div>
+            <label class="cursor-pointer px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-xs text-slate-300 hover:bg-white/10 transition-colors">
+              <i class="fas fa-upload mr-1"></i> Choose Photo
+              <input id="editDocPhoto" type="file" accept="image/*" onchange="previewDocPhoto('editDocPhoto','editDocPhotoPreview','editDocPhotoIcon')" class="hidden"/>
+            </label>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5"><i class="fas fa-lock text-brand-400/60 mr-1"></i>Change Password <span class="text-slate-600">(leave empty to keep current)</span></label>
+          <div class="relative">
+            <input id="editDocPassword" type="password" placeholder="Enter new password..." class="w-full px-3 py-2.5 pr-9 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+            <button type="button" onclick="togglePass('editDocPassword')" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"><i class="fas fa-eye text-xs"></i></button>
+          </div>
+        </div>
+        <div class="glass border border-white/8 rounded-xl p-4">
+          <p class="text-xs font-semibold text-slate-300 mb-3">Permissions</p>
+          <div class="space-y-2">
+            <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer"><input id="editDocViewOwn" type="checkbox" class="rounded bg-dark-800 border-white/20"/> View own appointments only</label>
+            <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer"><input id="editDocCanApprove" type="checkbox" class="rounded bg-dark-800 border-white/20"/> Can approve appointments</label>
+            <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer"><input id="editDocCanCancel" type="checkbox" class="rounded bg-dark-800 border-white/20"/> Can cancel appointments</label>
+            <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer"><input id="editDocIsActive" type="checkbox" class="rounded bg-dark-800 border-white/20"/> Active (visible on site)</label>
+          </div>
+        </div>
+        <div class="flex gap-3 pt-2">
+          <button type="button" onclick="closeModal('editDoctorModal')" class="flex-1 py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 text-sm font-medium hover:bg-white/10 transition-colors">Cancel</button>
+          <button id="editDocSaveBtn" type="submit" class="flex-1 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-sm font-semibold transition-colors"><i class="fas fa-save mr-1"></i>Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== EDIT APPOINTMENT MODAL ===================== -->
+<div id="editApptModal" class="modal-overlay hidden fixed inset-0 z-[120] items-center justify-center bg-black/70 backdrop-blur-sm">
+  <div class="modal-box glass border border-white/10 rounded-3xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto transform scale-95 opacity-0 transition-all duration-300">
+    <div class="sticky top-0 bg-dark-900/95 backdrop-blur-sm border-b border-white/5 p-5 flex items-center justify-between">
+      <div>
+        <h3 class="text-lg font-bold text-white"><i class="fas fa-calendar-edit text-brand-400 mr-2"></i>Edit Appointment</h3>
+        <p class="text-xs text-slate-500 mt-0.5">Modify patient appointment details</p>
+      </div>
+      <button onclick="closeModal('editApptModal')" class="w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center text-slate-400 hover:text-white transition-colors"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="p-5">
+      <form id="editApptForm" onsubmit="adminSaveEditAppt(event)" class="space-y-4">
+        <input type="hidden" id="editApptId"/>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs text-slate-400 mb-1.5">Patient Name</label>
+            <input id="editApptName" type="text" required class="w-full px-3 py-2.5 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+          </div>
+          <div>
+            <label class="block text-xs text-slate-400 mb-1.5">Age</label>
+            <input id="editApptAge" type="number" min="1" max="120" class="w-full px-3 py-2.5 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs text-slate-400 mb-1.5">Gender</label>
+            <select id="editApptGender" class="w-full px-3 py-2.5 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50">
+              <option value="">Select</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="child">Child (under 12)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs text-slate-400 mb-1.5">Specialty</label>
+            <select id="editApptSpecialty" class="w-full px-3 py-2.5 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50">
+              <option value="internal">Internal Medicine</option>
+              <option value="dentistry">Dentistry</option>
+              <option value="ortho">Orthopedics</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs text-slate-400 mb-1.5">Email</label>
+            <input id="editApptEmail" type="email" class="w-full px-3 py-2.5 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+          </div>
+          <div>
+            <label class="block text-xs text-slate-400 mb-1.5">Phone</label>
+            <input id="editApptPhone" type="tel" class="w-full px-3 py-2.5 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs text-slate-400 mb-1.5">Preferred Date</label>
+            <input id="editApptDate" type="date" class="w-full px-3 py-2.5 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+          </div>
+          <div>
+            <label class="block text-xs text-slate-400 mb-1.5">Status</label>
+            <select id="editApptStatus" class="w-full px-3 py-2.5 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50">
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="postponed">Postponed</option>
+              <option value="cancelled">Cancelled</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Doctor</label>
+          <input id="editApptDoctor" type="text" placeholder="Doctor name" class="w-full px-3 py-2.5 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50"/>
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1.5">Notes / Symptoms</label>
+          <textarea id="editApptNotes" rows="3" class="w-full px-3 py-2.5 rounded-xl bg-dark-800/50 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-500/50 resize-none"></textarea>
+        </div>
+        <div class="flex gap-3 pt-2">
+          <button type="button" onclick="closeModal('editApptModal')" class="flex-1 py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 text-sm font-medium hover:bg-white/10 transition-colors">Cancel</button>
+          <button id="editApptSaveBtn" type="submit" class="flex-1 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-sm font-semibold transition-colors"><i class="fas fa-save mr-1"></i>Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
