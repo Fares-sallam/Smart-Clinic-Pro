@@ -2,3 +2,15 @@
 .vscode/
 .DS_Store
 *.DS_Store
+
+# Internal documentation (not published)
+CODE_GUIDE.md
+CODE_GUIDE.pdf
+
+# Supabase functions & local config (not published)
+supabase/
+
+# Environment / secrets
+.env
+.env.*
+*.key
